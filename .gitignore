@@ -1,0 +1,12 @@
+logs/*
+!.gitkeep
+node_modules/
+app/lib/
+dist/*
+tmp
+.DS_Store
+.idea  
+.vscode/
+settings.json
+*.code-workspace
+*.md

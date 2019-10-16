@@ -1,0 +1,177 @@
+<!-- <link rel="stylesheet" href="list/list.css"> -->
+<style>
+    input {
+
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    input.searchPlayer {
+
+        margin-top: 20px;
+    }
+
+    label {
+
+        margin: 0 auto;
+        font-weight: bold;
+    }
+
+    h1 {
+        margin: 10px auto;
+    }
+
+    md-icon {
+
+        margin-top: -7px;
+    }
+
+    md-list-item>span {
+
+        font-size: 14px;
+    }
+
+    .info {
+
+        font-size: 14px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .removeButton {
+
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .container li{
+
+        border-radius: 10px 10px 10px 10px;
+    }
+
+    li:hover {
+
+        background-color: #BDBDBD;
+    }
+
+    /* div>.md-button {
+
+        width: 30%;
+        margin: 0 auto;
+    } */
+
+    .groupX {
+        font-size: 16px;
+        margin: 20px 0;
+        padding: 3px 15px 3px 15px;
+        color: rgb(49, 46, 46);
+        background-color: rgba(224, 224, 224, 0.96);
+        text-transform: none;
+        font-weight: 400;
+        min-width: 100px;
+    }
+
+    .md-button.left {
+        border-radius: 10px 0 0 10px;
+    }
+
+    .md-button.middle {
+        border-radius: 0;
+        border-left: 1px solid rgba(230, 230, 230, 0.96);
+        border-right: 1px solid rgba(230, 230, 230, 0.96);
+    }
+
+    .md-button.right {
+        border-radius: 0 10px 10px 0;
+    }
+
+    .md-button:not([disabled]):hover {
+        background-color: rgba(193, 193, 193, 0.96);
+        /* color: rgba(44, 65, 164, 0.96); */
+        color: #E91E63;
+        transition: 0.3s;
+    }
+
+    @media (max-width: 640px){
+
+        .md-button{
+
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+    }
+</style>
+
+<md-toolbar>
+    <h1 class="md-display-3">Lista zawodników</h1>
+</md-toolbar>
+
+<div class="container" layout="column" flex>
+
+    <input class="searchPlayer" type="text" ng-model="searchedText" placeholder="Szukaj zawodnika..."><br>
+
+    <!-- <ul style="margin-left: -20px; margin-right: 20px;"> -->
+    <ul style="padding: 0;">
+        <li ng-repeat="player in playerData | filter: searchedText" style="list-style-type: none;">
+
+            <!-- {{player.name+" "+player.surname+ " " + player.age+" "+player.value}}   -->
+
+            <md-list-item style="position: relative; padding: 0 5px;">
+
+                <md-button>
+
+                    <md-icon md-svg-src="view1/account.svg"></md-icon>
+                    {{player.name+" "+ player.surname}}
+
+                </md-button>
+
+                <span class="info">
+
+                    <span style="margin-right: 0px;">{{"wiek: "+player.age}} wartość: {{player.value | currency : "€"}}
+                    </span>
+
+                    <md-button class="removeButton" ng-click="removeFromStorage(player.surname)"> Usuń
+                    </md-button>
+
+                </span>
+
+            </md-list-item>
+        </li>
+
+        <md-divider></md-divider>
+
+        </md-list-item>
+
+    </ul>
+
+    <br>
+
+    <!-- <md-button class="md-raised" ng-click="showAllEntries()">Pokaż wpisy w konsoli</md-button> -->
+
+    <!-- <div class="buttons" flex layout="row" layout-align="start start">
+
+        <md-button ng-click="showAllEntries()">Pokaż wpisy w konsoli</md-button> -->
+    <!-- <md-button class="md-accent md-hue-3" ng-click="showAllEntries()">Pokaż wpisy w konsoli</md-button> -->
+    <!-- <md-button ng-click="printChart()">Rysuj wykres</md-button>
+        <md-button  ng-click="clearAll()">Wyczyść localStorage</md-button>
+
+    </div> -->
+
+    <!-- przyklad uzaleznienia wygladu od rozdzielczosci wyswietlacza -->
+
+    <div flex  layout="row" layout-sm="column" layout-align="center center">      
+
+        <md-button class="groupX left" ng-click="showAllEntries()">Pokaż wpisy w konsoli</md-button>
+        <!-- <md-button class="md-accent md-hue-3" ng-click="showAllEntries()">Pokaż wpisy w konsoli</md-button> -->
+        <md-button class="groupX middle" ng-click="printChart()">Rysuj wykres</md-button>
+        <md-button class="groupX middle" ng-click="sortByProperty('name')">Ułóż imionami</md-button>
+        <md-button class="groupX middle" ng-click="sortByProperty('surname')">Ułóż nazwiskami</md-button>
+        <md-button class="groupX right" ng-click="clearAll()">Wyczyść localStorage</md-button>
+
+    </div>
+
+    <div ng-show="showPicture" style="background-color: white; width: 400px; margin: 0 auto; "><img src="" id="demo"
+            style="width: 100%"></div>
+
+</div>
