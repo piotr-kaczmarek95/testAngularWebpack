@@ -40,21 +40,25 @@ var urlsToCache = [
   // 'view1/view1.html',
   // 'view1/view1.css',
   // 'view1/view1.spec.js',
-  'view1/account.svg',
+  // 'svgs/account.svg',
   // 'view1/angular-material.css',
   // 'view1/bottom.html',
-  'view1/share.svg',
+  // 'svgs/share.svg',
 
-  'view2/view2.html',
+  '56f93dd15422646fdab9f88b1ce3977c.svg',
+  '181fa2e1c310169f75151f7930013ed0.svg',
+  '858a424ab82fbf8eac6221400fad1364.svg',
+
+  // 'view2/view2.html',
   // 'view2/view2.css',
   // 'view2/view2.spec.js',
-  'view2/info.svg',
-  'view2/menu.svg',
+  // 'view2/info.svg',
+  // 'view2/menu.svg',
 
-  'players/players.html',
+  // 'players/players.html',
   // 'players/players.css',
  
-  'list/list.html',
+  // 'list/list.html',
   // 'list/list.css',
 
   'footer.html' 

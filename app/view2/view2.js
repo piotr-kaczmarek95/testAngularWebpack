@@ -1,15 +1,23 @@
 'use strict';
+import view2 from './view2.html'
+import menu from '../svgs/menu.svg'
+import info from '../svgs/info.svg'
 
 angular.module('homeworkProject.view2', ['ngRoute'])
 
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/view2', {
-      templateUrl: 'view2/view2.html',
+      // templateUrl: 'view2/view2.html',
+      template: view2,
       controller: 'View2Ctrl'
     });
   }])
 
   .controller('View2Ctrl', ['$scope', '$http', function ($scope, $http) {
+
+    $scope.menu = menu;
+    $scope.info = info;
+    
 
     $scope.text = "Losowy fakt";
 

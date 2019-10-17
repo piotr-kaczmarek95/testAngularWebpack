@@ -1,10 +1,14 @@
+import playerstemp from './players.html'
+import account from '../svgs/account.svg'
+
+
 angular.module('homeworkProject.players', ['ngRoute'])
 
     .config(['$routeProvider', function ($routeProvider) {
 
         $routeProvider.
         when('/players', {
-            templateUrl: 'players/players.html',
+            template: playerstemp,
             controller: 'playersController',
             reloadOnSearch: false
         });
@@ -102,19 +106,17 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
             checkAge: function (age) {
 
+                console.log(age);
+
                 if (age < 15) {
 
                     console.log("Zbyt mała wartość");
-                    tooYoung = true;
+                    return true;
                 } else {
 
                     console.log("Wiek ok!");
-                    tooYoung = false;
+                    return false;
                 }
-
-                console.log(age);
-
-                return tooYoung;
             }
         }
     })
@@ -124,6 +126,8 @@ angular.module('homeworkProject.players', ['ngRoute'])
     .controller('playersController', ['$scope', '$location', 'localStorageService', 'checkAgeService', 'playerDataServices', '$mdDialog', '$interval', function ($scope, $location, localStorageService, checkAgeService, playerDataServices, $mdDialog, $interval) {
 
         //pamiętaj, że view1 i view2 maja inny kontroler, dlatego nic sie nie pojawia
+
+        $scope.account = account;
 
         $scope.location = $location;
 

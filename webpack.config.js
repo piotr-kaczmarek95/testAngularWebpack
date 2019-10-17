@@ -23,6 +23,11 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'ng-cache-loader?prefix=[dir]/[dir]'
+      },
+
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'file-loader',
       }
 
 

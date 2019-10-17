@@ -7,7 +7,7 @@ angular.module('homeworkProject.view1', ['ngRoute'])
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/view1', {
       // templateUrl: 'view1/view1.html',
-      templateUrl: view1,
+      template: view1,
       controller: 'View1Ctrl'
     });
   }])
@@ -36,7 +36,7 @@ angular.module('homeworkProject.view1', ['ngRoute'])
       $scope.alert = '';
       $mdBottomSheet.show({
         // templateUrl: 'view1/bottom.html',
-        templateUrl: bottom,
+        template: bottom,
         controller: 'View1Ctrl'
       })
     }
