@@ -46,5 +46,43 @@ angular.module('homeworkProject.view1', ['ngRoute'])
       menu.open();
 
     }
-    
+
+    $scope.calcInMainThread = function () {
+
+      // console.log("Obliczenia w wątku głównym");
+      // for (let i=100000; i>0; i--){
+
+      //   console.log("Odliczam! "+ i);
+
+      // }
+
+      let countingTime = new Date().getTime()+10000; //10 s
+      let now = new Date().getTime();
+
+      // console.log(now);
+
+      while (now < countingTime){
+
+        now = new Date().getTime();    
+      }
+
+      console.log(now);
+
+
+    }
+
+    $scope.calcInWebWorker = function () {
+
+      const myWorker = new Worker('worker.js');
+
+      myWorker.postMessage("run");
+
+      myWorker.addEventListener('message', function(e){
+
+         console.log(e.data);
+
+      });
+
+    }
+
   }]);
