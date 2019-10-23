@@ -12,7 +12,8 @@ var urlsToCache = [
   '181fa2e1c310169f75151f7930013ed0.svg',
   '858a424ab82fbf8eac6221400fad1364.svg',
 
-  'footer.html' 
+  'footer.html',
+  'zzz.jpg' //tymczasowe wylaczenie serwice workera
 
 ];
 

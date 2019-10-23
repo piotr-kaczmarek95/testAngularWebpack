@@ -1,0 +1,38 @@
+<style>
+    .dialogContainer {
+
+        background-color: white;
+        border-radius: 10px 10px;
+        border: 2px solid #9E9E9E;
+
+        padding: 20px;
+    }
+</style>
+
+<div class="dialogContainer" role="dialog" aria-label="Dialog window" layout="column" layout-align="center center">
+    <md-toolbar>
+        <div class="md-toolbar-tools" style="background-color: red;">
+            <h2 style="color: white">Trzecie okno dialogowe</h2>
+        </div>
+    </md-toolbar>
+
+    <div class="demo-dialog-content">
+        <p>
+            Opcje:
+        </p>
+    </div>
+
+    <div layout="row" class="demo-dialog-button">
+        <md-button md-autofocus flex class="md-primary" ng-click="closePanel()">
+            Anuluj
+        </md-button>
+
+        <md-button md-autofocus flex class="md-primary" ng-click="nextPanel($event)">
+            Dalej
+        </md-button>
+        <md-button md-autofocus flex class="md-primary" ng-click="prevPanel($event)">
+            Wstecz
+        </md-button>
+    </div>
+
+</div>

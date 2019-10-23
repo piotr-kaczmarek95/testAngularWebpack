@@ -8,11 +8,12 @@ angular.module('homeworkProject.view1', ['ngRoute'])
     $routeProvider.when('/view1', {
       // templateUrl: 'view1/view1.html',
       template: view1,
-      controller: 'View1Ctrl'
+      controller: 'View1Ctrl',
+      // reloadOnSearch: false
     });
   }])
 
-  .controller('View1Ctrl', ['$scope', '$mdBottomSheet', '$mdMenu', function ($scope, $mdBottomSheet, $mdMenu) {
+  .controller('View1Ctrl', ['$scope', '$mdBottomSheet', '$mdMenu', '$mdPanel', function ($scope, $mdBottomSheet, $mdMenu, $mdPanel) {
 
     $scope.showText = function () {
 
@@ -56,14 +57,14 @@ angular.module('homeworkProject.view1', ['ngRoute'])
 
       // }
 
-      let countingTime = new Date().getTime()+10000; //10 s
+      let countingTime = new Date().getTime() + 10000; //10 s
       let now = new Date().getTime();
 
       // console.log(now);
 
-      while (now < countingTime){
+      while (now < countingTime) {
 
-        now = new Date().getTime();    
+        now = new Date().getTime();
       }
 
       console.log(now);
@@ -77,12 +78,92 @@ angular.module('homeworkProject.view1', ['ngRoute'])
 
       myWorker.postMessage("run");
 
-      myWorker.addEventListener('message', function(e){
+      myWorker.addEventListener('message', function (e) {
 
-         console.log(e.data);
+        console.log(e.data);
 
       });
+    }
 
+    $scope.urlOfTemplate = "tekst template";
+
+    ///////////////////
+
+    $scope.showPanel = function ($event) {
+
+      ///zabezpieczenie przed wyjsciem poza zakres kolejnych podstron wizarda
+
+      // if ($scope.currentDialogPage < 1) {
+
+      //   $scope.currentDialogPage = 1;
+      // }
+
+      // if ($scope.currentDialogPage > 3) {
+
+      //   $scope.currentDialogPage = 3;
+      // }
+
+      $scope.urlOfTemplate = "view1/dialog-template-1.html";
+      
+      // console.log(urlOfTemplate);
+
+      //
+
+      var panelPosition = $mdPanel.newPanelPosition()
+        .absolute()
+        .center();
+
+      // var panelAnimation = $mdPanel.newPanelAnimation()
+      //   .openFrom($event)
+      //   .duration(200)
+      //   .closeTo('.md-display-3');
+      //   .withAnimation($mdPanel.animation.SCALE);
+
+      var config = {
+        attachTo: angular.element(document.body),
+        controller: 'View1Ctrl',
+        position: panelPosition,
+        // animation: panelAnimation,
+        targetEvent: $event,
+        templateUrl: $scope.urlOfTemplate,
+        clickOutsideToClose: true,
+        escapeToClose: true,
+        focusOnOpen: true
+      };
+
+      $mdPanel.open(config).then(function (ref) {
+
+        console.log(ref);
+      });
+    }
+
+
+
+    $scope.nextPanel = function ($event) {
+
+      //scope jest globalny
+      console.log($scope.urlOfTemplate);
+      $scope.closePanel();
+      // $scope.currentDialogPage++;
+
+      $scope.showPanel($event);
+    }
+
+    $scope.prevPanel = function ($event) {
+
+      console.log("Prev panel");
+      $scope.closePanel();
+      // $scope.currentDialogPage--;
+      $scope.showPanel($event);
+    }
+
+    //nieudane zamykanie
+
+    $scope.closePanel = function () {
+
+      console.log("Zamykam!");
+      let el = document.querySelector('.dialogContainer');
+      el.remove();
     }
 
   }]);
