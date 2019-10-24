@@ -217,7 +217,7 @@
 
         </md-toolbar>
 
-        <div class="dialogText" flex="30">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor repellat
+        <div class="dialogText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor repellat
             tenetur unde
             itaque optio qui repellendus voluptates error, ab doloribus? Modi mollitia tempore impedit quasi
             consectetur? Quisquam blanditiis harum nihil.
@@ -226,14 +226,14 @@
         <div style="margin-bottom: 20px" layout="column" layout-align="center center">
 
             <label>Podaj nazwę użytkownika</label> <br>
-            <input type="text" ng-model="userName" ng-required="true" ng-change="checkLength($event)">
+            <input type="text" ng-model="userName" ng-change="checkLength()">
 
         </div>
 
         <div class="dialogButtons" layout="row" layout-align="space-between center">
 
             <div class="md-button prev" id="prev-1" ng-disabled="true">Wstecz</div>
-            <div class="md-button next" id="next-1" ng-click="next($event)">Dalej</div>
+            <div class="md-button next" id="next-1" ng-click="next($event)" ng-disabled="disableProgress">Dalej</div>
             <div class="md-button" ng-click=abort($event)>Anuluj</div>
 
         </div>
@@ -246,7 +246,7 @@
 
 <div class="panel" id="panel-2">
 
-    <div class="dialogBox" layout="column" layout-align="">
+    <div class="dialogBox" layout="column">
 
         <md-toolbar class="dialogHeader">
 
@@ -254,7 +254,7 @@
 
         </md-toolbar>
 
-        <div class="dialogText" flex="30">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor repellat
+        <div class="dialogText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor repellat
             tenetur unde
             itaque optio qui repellendus voluptates error, ab doloribus? Modi mollitia tempore impedit quasi
             consectetur? Quisquam blanditiis harum nihil.
@@ -263,7 +263,7 @@
         <div style="margin-bottom: 20px" layout="column" layout-align="center center">
 
             <label>Podaj wiek</label> <br>
-            <input type="number" ng-model="userAge" ng-required="true" ng-change="checkAge()">
+            <input type="number" ng-model="userAge" ng-change="checkAge()">
 
         </div>
 
@@ -272,7 +272,7 @@
         <div class="dialogButtons" layout="row" layout-align="space-between center">
 
             <div class="md-button prev" id="prev-2" ng-click="prev($event)">Wstecz</div>
-            <div class="md-button next" id="next-2" ng-click="next($event)">Dalej</div>
+            <div class="md-button next" id="next-2" ng-click="next($event)" ng-disabled="tooYoung">Dalej</div>
             <div class="md-button" ng-click="abort($event)">Anuluj</div>
 
         </div>
@@ -285,7 +285,7 @@
 
 <div class="panel" id="panel-3">
 
-    <div class="dialogBox" layout="column" layout-align="">
+    <div class="dialogBox" layout="column">
 
         <md-toolbar class="dialogHeader">
 
@@ -293,7 +293,7 @@
 
         </md-toolbar>
 
-        <div class="dialogText" flex="40">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor repellat
+        <div class="dialogText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor repellat
             tenetur unde
             itaque optio qui repellendus voluptates error, ab doloribus? Modi mollitia tempore impedit quasi
             consectetur? Quisquam blanditiis harum nihil.
@@ -334,7 +334,7 @@
 
         <div class="dialogText">
             <p style="text-align: center;">Twój wybór to:</p>
-            <p>Imię: {{userName}}</p>
+            <p>Nazwa użytkownika: {{userName}}</p>
             <p>Wiek: {{userAge}}</p>
             <p>Opcja 1: <span ng-show="option1">Tak</span><span ng-show="!option1">Nie</span></p>
             <p>Opcja 2: <span ng-show="option2">Tak</span><span ng-show="!option2">Nie</span></p>

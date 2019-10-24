@@ -100,12 +100,26 @@ angular.module('homeworkProject.view1', ['ngRoute'])
       console.log("Kliknales anuluj!");
       // console.log($event.target.id);
 
-      //wylaczam kazdy panel 
+      //wylaczam panel, ktory ma ustawiony display: block
 
-      document.querySelector("#panel-1").style.display = "none";
-      document.querySelector("#panel-2").style.display = "none";
-      document.querySelector("#panel-3").style.display = "none";
-      document.querySelector("#panel-4").style.display = "none";
+      let panels = document.querySelectorAll(".panel");
+
+      for (let i = 0; i < panels.length; i++) {
+
+        if (panels[i].style.display == "block") {
+
+          panels[i].style.display = "none";
+          break;
+        }
+
+      }
+
+      //recznie tez mozna
+
+      // document.querySelector("#panel-1").style.display = "none";
+      // document.querySelector("#panel-2").style.display = "none";
+      // document.querySelector("#panel-3").style.display = "none";
+      // document.querySelector("#panel-4").style.display = "none";
 
       //resetowanie wprowadzonych danych do wartości początkowej
       $scope.userName = "";
@@ -116,11 +130,11 @@ angular.module('homeworkProject.view1', ['ngRoute'])
 
       $scope.option1 = false;
       $scope.option2 = false;
-      $scope.option3 = false;  
+      $scope.option3 = false;
 
     }
 
-    $scope.tooYoung = false;
+    $scope.tooYoung = true;
 
     $scope.next = function ($event) {
 
@@ -198,7 +212,7 @@ angular.module('homeworkProject.view1', ['ngRoute'])
 
     }
 
-    $scope.confirm = function ($event){
+    $scope.confirm = function ($event) {
 
       alert("Dane zatwierdzone!");
       $scope.abort($event);
@@ -206,7 +220,7 @@ angular.module('homeworkProject.view1', ['ngRoute'])
 
     $scope.disableProgress = true;
 
-    $scope.checkLength = function ($event) {
+    $scope.checkLength = function () {
 
       //imie minimum dwuliterowe
 
@@ -218,7 +232,10 @@ angular.module('homeworkProject.view1', ['ngRoute'])
       if ($scope.userName != undefined && $scope.userName.length > 1) {
 
         $scope.disableProgress = false;
-      }
+      }else{
+
+        $scope.disableProgress = true;
+      } 
 
       console.log("Wartosc disable progress " + $scope.disableProgress);
 
