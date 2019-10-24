@@ -48,6 +48,60 @@
         color: #E91E63;
         transition: 0.3s;
     }
+
+    .panel {
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        display: none;
+    }
+
+    .dialogBox {
+
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        min-height: 40%;
+        z-index: 1;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .dialogHeader {
+
+        color: white;
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+    }
+
+    .dialogButtons {
+
+        width: 100%;
+    }
+
+    .dialogText {
+
+        margin-bottom: 40px;
+        text-align: justify;
+    }
+
+    #panel-2 {
+
+        display: none;
+    }
+
+    #panel-3 {
+        display: none;
+    }
 </style>
 
 
@@ -149,6 +203,153 @@
 
 <md-button class="bottommenu" ng-click="calcInMainThread()">Oblicz w głównym wątku</md-button>
 <md-button class="bottommenu" ng-click="calcInWebWorker()">Oblicz w web workerze</md-button>
+<md-button class="bottommenu" ng-click="showWizard()">Pokaż wizarda</md-button>
 
-<md-button class="bottommenu" ng-click="showPanel($event)">Okno dialogowe</md-button>
+<!-- pierwsze okno  -->
 
+<div class="panel" id="panel-1">
+
+    <div class="dialogBox" layout="column">
+
+        <md-toolbar class="dialogHeader">
+
+            <p>Okno dialogowe 1</p>
+
+        </md-toolbar>
+
+        <div class="dialogText" flex="30">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor repellat
+            tenetur unde
+            itaque optio qui repellendus voluptates error, ab doloribus? Modi mollitia tempore impedit quasi
+            consectetur? Quisquam blanditiis harum nihil.
+        </div>
+
+        <div style="margin-bottom: 20px" layout="column" layout-align="center center">
+
+            <label>Podaj nazwę użytkownika</label> <br>
+            <input type="text" ng-model="userName" ng-required="true" ng-change="checkLength($event)">
+
+        </div>
+
+        <div class="dialogButtons" layout="row" layout-align="space-between center">
+
+            <div class="md-button prev" id="prev-1" ng-disabled="true">Wstecz</div>
+            <div class="md-button next" id="next-1" ng-click="next($event)">Dalej</div>
+            <div class="md-button" ng-click=abort($event)>Anuluj</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- drugie okno  -->
+
+<div class="panel" id="panel-2">
+
+    <div class="dialogBox" layout="column" layout-align="">
+
+        <md-toolbar class="dialogHeader">
+
+            <p>Okno dialogowe 2</p>
+
+        </md-toolbar>
+
+        <div class="dialogText" flex="30">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor repellat
+            tenetur unde
+            itaque optio qui repellendus voluptates error, ab doloribus? Modi mollitia tempore impedit quasi
+            consectetur? Quisquam blanditiis harum nihil.
+        </div>
+
+        <div style="margin-bottom: 20px" layout="column" layout-align="center center">
+
+            <label>Podaj wiek</label> <br>
+            <input type="number" ng-model="userAge" ng-required="true" ng-change="checkAge()">
+
+        </div>
+
+
+
+        <div class="dialogButtons" layout="row" layout-align="space-between center">
+
+            <div class="md-button prev" id="prev-2" ng-click="prev($event)">Wstecz</div>
+            <div class="md-button next" id="next-2" ng-click="next($event)">Dalej</div>
+            <div class="md-button" ng-click="abort($event)">Anuluj</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- trzecie okno  -->
+
+<div class="panel" id="panel-3">
+
+    <div class="dialogBox" layout="column" layout-align="">
+
+        <md-toolbar class="dialogHeader">
+
+            <p>Okno dialogowe 3</p>
+
+        </md-toolbar>
+
+        <div class="dialogText" flex="40">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor repellat
+            tenetur unde
+            itaque optio qui repellendus voluptates error, ab doloribus? Modi mollitia tempore impedit quasi
+            consectetur? Quisquam blanditiis harum nihil.
+        </div>
+
+        <div layout="row" layout-align="space-between center" style="margin-bottom: 20px;">
+
+
+            <md-checkbox ng-model="option1">Opcja 1</md-checkbox>
+            <md-checkbox ng-model="option2">Opcja 2</md-checkbox>
+            <md-checkbox ng-model="option3">Opcja 3</md-checkbox>
+
+        </div>
+
+        <div class="dialogButtons" layout="row" layout-align="space-around center">
+
+            <div class="md-button prev" id="prev-3" ng-click="prev($event)">Wstecz</div>
+            <div class="md-button next" id="next-3" ng-click="next($event)">Dalej</div>
+            <div class="md-button" ng-click="abort($event)">Anuluj</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- podsumowanie   -->
+
+<div class="panel" id="panel-4">
+
+    <div class="dialogBox" layout="column" layout-align="">
+
+        <md-toolbar class="dialogHeader">
+
+            <p>Okno 4 - podsumowanie</p>
+
+        </md-toolbar>
+
+        <div class="dialogText">
+            <p style="text-align: center;">Twój wybór to:</p>
+            <p>Imię: {{userName}}</p>
+            <p>Wiek: {{userAge}}</p>
+            <p>Opcja 1: <span ng-show="option1">Tak</span><span ng-show="!option1">Nie</span></p>
+            <p>Opcja 2: <span ng-show="option2">Tak</span><span ng-show="!option2">Nie</span></p>
+            <p>Opcja 3: <span ng-show="option3">Tak</span><span ng-show="!option3">Nie</span></p>
+        </div>
+
+        <div class="dialogButtons" layout="row" layout-align="space-between center">
+
+            <div class="md-button prev" id="prev-4" ng-click="prev($event)">Wstecz</div>
+            <div class="md-button next" id="next-4" ng-disabled="true">Dalej</div>
+            <div class="md-button" ng-click="abort($event)">Anuluj</div>
+            <div class="md-button md-warn" ng-click="confirm($event)">Zatwierdź</div>
+
+        </div>
+
+    </div>
+
+</div>

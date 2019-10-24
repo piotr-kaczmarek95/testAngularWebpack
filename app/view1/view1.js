@@ -13,7 +13,7 @@ angular.module('homeworkProject.view1', ['ngRoute'])
     });
   }])
 
-  .controller('View1Ctrl', ['$scope', '$mdBottomSheet', '$mdMenu', '$mdPanel', function ($scope, $mdBottomSheet, $mdMenu, $mdPanel) {
+  .controller('View1Ctrl', ['$scope', '$mdBottomSheet', '$mdMenu', function ($scope, $mdBottomSheet, $mdMenu) {
 
     $scope.showText = function () {
 
@@ -85,85 +85,163 @@ angular.module('homeworkProject.view1', ['ngRoute'])
       });
     }
 
-    $scope.urlOfTemplate = "tekst template";
+    // const header = document.querySelector("h1");
+    // console.log(header.innerText); //działa
 
-    ///////////////////
+    //24.10
 
-    $scope.showPanel = function ($event) {
+    $scope.showWizard = function () {
 
-      ///zabezpieczenie przed wyjsciem poza zakres kolejnych podstron wizarda
-
-      // if ($scope.currentDialogPage < 1) {
-
-      //   $scope.currentDialogPage = 1;
-      // }
-
-      // if ($scope.currentDialogPage > 3) {
-
-      //   $scope.currentDialogPage = 3;
-      // }
-
-      $scope.urlOfTemplate = "view1/dialog-template-1.html";
-      
-      // console.log(urlOfTemplate);
-
-      //
-
-      var panelPosition = $mdPanel.newPanelPosition()
-        .absolute()
-        .center();
-
-      // var panelAnimation = $mdPanel.newPanelAnimation()
-      //   .openFrom($event)
-      //   .duration(200)
-      //   .closeTo('.md-display-3');
-      //   .withAnimation($mdPanel.animation.SCALE);
-
-      var config = {
-        attachTo: angular.element(document.body),
-        controller: 'View1Ctrl',
-        position: panelPosition,
-        // animation: panelAnimation,
-        targetEvent: $event,
-        templateUrl: $scope.urlOfTemplate,
-        clickOutsideToClose: true,
-        escapeToClose: true,
-        focusOnOpen: true
-      };
-
-      $mdPanel.open(config).then(function (ref) {
-
-        console.log(ref);
-      });
+      document.querySelector("#panel-1").style.display = "block";
     }
 
+    $scope.abort = function ($event) {
 
+      console.log("Kliknales anuluj!");
+      // console.log($event.target.id);
 
-    $scope.nextPanel = function ($event) {
+      //wylaczam kazdy panel 
 
-      //scope jest globalny
-      console.log($scope.urlOfTemplate);
-      $scope.closePanel();
-      // $scope.currentDialogPage++;
+      document.querySelector("#panel-1").style.display = "none";
+      document.querySelector("#panel-2").style.display = "none";
+      document.querySelector("#panel-3").style.display = "none";
+      document.querySelector("#panel-4").style.display = "none";
 
-      $scope.showPanel($event);
+      //resetowanie wprowadzonych danych do wartości początkowej
+      $scope.userName = "";
+      $scope.userAge = "";
+
+      $scope.tooYoung = true;
+      $scope.disableProgress = true;
+
+      $scope.option1 = false;
+      $scope.option2 = false;
+      $scope.option3 = false;  
+
     }
 
-    $scope.prevPanel = function ($event) {
+    $scope.tooYoung = false;
 
-      console.log("Prev panel");
-      $scope.closePanel();
-      // $scope.currentDialogPage--;
-      $scope.showPanel($event);
+    $scope.next = function ($event) {
+
+      console.log("Kliknales next!");
+      // console.log($event.target.id);
+
+      if ($scope.disableProgress) return; //zabezpieczenie na wypadek zbyt krotkiej nazwy uzytkownika
+
+      // przycisk zawiera w id numer okna, w ktorym byl wyswietlony
+
+      console.log($event.target.id.charAt($event.target.id.length - 1));
+
+      if (($event.target.id.charAt($event.target.id.length - 1) == 2) && $scope.tooYoung) return; //zabezpieczenie na wypadek zbyt niskiego wieku podawanego w slajdzie drugim
+
+      //urkywam dotychczas widoczne okno - sklejam jego id
+
+      let currentVisibleId = "panel-" + ($event.target.id.charAt($event.target.id.length - 1));
+      console.log("Wylaczam widocznosc " + currentVisibleId);
+
+      // console.log(document.querySelector("#"+currentVisibleId));
+
+      document.querySelector("#" + currentVisibleId).style.display = "none";
+
+      //zmieniam indeks, by wskazywal na kolejne okno
+
+      let nextVisibleIndex = parseInt($event.target.id.charAt($event.target.id.length - 1)) + 1;
+      console.log(nextVisibleIndex);
+
+      //sklejam id kolejnego panelu
+
+      let nextVisible = "#panel-" + (nextVisibleIndex);
+      console.log(nextVisible);
+
+      console.log(document.querySelector(nextVisible));
+
+      //i ustawiam widocznosc
+
+      document.querySelector(nextVisible).style.display = "block";
+
     }
 
-    //nieudane zamykanie
+    $scope.prev = function ($event) {
 
-    $scope.closePanel = function () {
+      console.log("Kliknales prev!");
+      console.log($event.target.id);
 
-      console.log("Zamykam!");
-      let el = document.querySelector('.dialogContainer');
-      el.remove();
+      console.log("Kliknales next!");
+
+      // teraz widze to okno
+
+      console.log($event.target.id.charAt($event.target.id.length - 1));
+
+      //urkywam
+
+      let currentVisibleId = "panel-" + ($event.target.id.charAt($event.target.id.length - 1));
+      console.log("Wylaczam widocznosc " + currentVisibleId);
+
+      // console.log(document.querySelector("#"+currentVisibleId));
+
+      document.querySelector("#" + currentVisibleId).style.display = "none";
+
+      //a musze zobaczyc poprzednie - zmniejszam indeks o jeden
+
+      let nextVisibleIndex = parseInt($event.target.id.charAt($event.target.id.length - 1)) - 1;
+      console.log(nextVisibleIndex);
+
+      let nextVisible = "#panel-" + (nextVisibleIndex);
+      console.log(nextVisible);
+
+      //i ustawiam widocznosc
+
+      console.log(document.querySelector(nextVisible));
+
+      document.querySelector(nextVisible).style.display = "block";
+
     }
+
+    $scope.confirm = function ($event){
+
+      alert("Dane zatwierdzone!");
+      $scope.abort($event);
+    }
+
+    $scope.disableProgress = true;
+
+    $scope.checkLength = function ($event) {
+
+      //imie minimum dwuliterowe
+
+      console.log("Zmiana!");
+      console.log($scope.userName);
+
+      if ($scope.userName != undefined) console.log($scope.userName.length);
+
+      if ($scope.userName != undefined && $scope.userName.length > 1) {
+
+        $scope.disableProgress = false;
+      }
+
+      console.log("Wartosc disable progress " + $scope.disableProgress);
+
+    }
+
+    $scope.checkAge = function () {
+
+      if ($scope.userAge != undefined) {
+
+        if ($scope.userAge < 15) {
+          $scope.tooYoung = true;
+        } else {
+          $scope.tooYoung = false;
+        }
+
+        console.log("Too young " + $scope.tooYoung);
+      }
+    }
+
+    ////default options set
+
+    $scope.option1 = false;
+    $scope.option2 = false;
+    $scope.option3 = false;
 
   }]);
