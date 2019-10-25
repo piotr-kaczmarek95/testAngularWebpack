@@ -27,6 +27,10 @@ angular.module('homeworkProject', [
     'homeworkProject.view2',
     'homeworkProject.players',
     'homeworkProject.list',
+    'homeworkProject.wizard1',
+    'homeworkProject.wizard2',
+    'homeworkProject.wizard3',
+    'homeworkProject.wizard4',
     'LocalStorageModule',
     'ngMaterial',
     'ngMessages'

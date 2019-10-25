@@ -16,6 +16,10 @@ require('./app/view1/view1.js');
 require('./app/view2/view2.js');
 require('./app/players/players.js');
 require('./app/list/list.js');
+require('./app/wizard1/wizard1.js');
+require('./app/wizard2/wizard2.js');
+require('./app/wizard3/wizard3.js');
+require('./app/wizard4/wizard4.js');
 
 
 

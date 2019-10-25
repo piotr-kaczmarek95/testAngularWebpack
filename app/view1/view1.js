@@ -27,7 +27,7 @@ angular.module('homeworkProject.view1', ['ngRoute'])
     };
   })
 
-  .controller('View1Ctrl', ['$scope', '$mdBottomSheet', '$mdMenu', function ($scope, $mdBottomSheet, $mdMenu) {
+  .controller('View1Ctrl', ['$scope', '$mdBottomSheet', '$mdMenu', '$location', function ($scope, $mdBottomSheet, $mdMenu, $location) {
 
     $scope.showText = function () {
 
@@ -244,5 +244,12 @@ angular.module('homeworkProject.view1', ['ngRoute'])
     $scope.option1 = false;
     $scope.option2 = false;
     $scope.option3 = false;
+
+    $scope.fullWizard = function (){
+
+      // console.log($location.path()); //pokazuje /view1 - aktualny widok!
+
+      $location.path("/wizard1"); //przekierowanie do widoku wizarda - pamiętac o dodaniu $location do zależności
+    }
 
   }]);
