@@ -1,4 +1,16 @@
-<h1>Test 1</h1>
-<md-button ng-disabled="true">Wstecz</md-button>
-<md-button ng-click="next()">Dalej</md-button>
-<md-button ng-click="abort()">Anuluj</md-button>
+<div layout="column" layout-align="center center">
+
+    <h1>Test 1</h1>
+
+    <label>Podaj imie</label>
+    <input type="text" ng-model="name" ng-change="tooShort()">
+    <label>Podaj nazwisko</label>
+    <input type="text" ng-model="surname" ng-change="tooShort()">
+
+    <div layout="row">
+        <md-button ng-disabled="true">Wstecz</md-button>
+        <md-button ng-click="next()" ng-disabled="lockFirstWindow">Dalej</md-button>
+        <md-button ng-click="abort()">Anuluj</md-button>
+    </div>
+
+</div>

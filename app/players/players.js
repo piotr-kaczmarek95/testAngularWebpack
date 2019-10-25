@@ -25,7 +25,12 @@ angular.module('homeworkProject.players', ['ngRoute'])
                 let keys = localStorageService.keys();
                 keys.forEach(item => {
 
-                    console.log("Klucz: " + item + ", wartość: imię " + localStorageService.get(item).name + ", wiek " + localStorageService.get(item).age + ", wartość " + localStorageService.get(item).value);
+                    //zabezpieczenie przed wczytaniem innego elementu ze storage'a niz zawodnik
+
+                    if (localStorageService.get(item).name != undefined) {
+
+                        console.log("Klucz: " + item + ", wartość: imię " + localStorageService.get(item).name + ", wiek " + localStorageService.get(item).age + ", wartość " + localStorageService.get(item).value);
+                    }
 
                 })
             },
@@ -41,13 +46,21 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
                 keys.forEach(item => {
 
-                    playerData.push({
+                    console.log(localStorageService.get(item).name);
 
-                        name: localStorageService.get(item).name,
-                        surname: item,
-                        age: localStorageService.get(item).age,
-                        value: localStorageService.get(item).value
-                    })
+                    //zabezpieczenie przed wyswietleniem elementu localStorage, ktory nie jest zawodnikiem - tzn. nie ma atrybutu name
+
+                    if ((localStorageService.get(item).name) != undefined) {
+
+                        playerData.push({
+
+                            name: localStorageService.get(item).name,
+                            surname: item,
+                            age: localStorageService.get(item).age,
+                            value: localStorageService.get(item).value
+                        })
+
+                    }
                 })
             },
 
@@ -137,11 +150,28 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
         $scope.showPicture = false;
 
+        $scope.surnames = [];
+
         $scope.getSurnamesToArray = function () {
 
             //wyluskanie z bazy jedynie nazwisk, ktore beda podpowiedziami w elemencie md-autocomplete
-            $scope.surnames = localStorageService.keys();
-            console.log($scope.surnames);
+
+            $scope.surnames.length = 0;
+
+            let keys = localStorageService.keys();
+
+            //wczytanie z bazy tylko tych kluczy, ktore maja atrybut name 
+
+            for (let i = 0; i < keys.length; i++) {
+
+                if (localStorageService.get(keys[i]).name != undefined) {
+
+                    console.log("dodaje"+localStorageService.get(keys[i]).name);
+                    $scope.surnames.push(keys[i]);
+                }
+            }
+
+            console.log("Tablica nazwisk" + $scope.surnames);
         }
 
         $scope.loadingBeforeSearch = function (searchedPlayer) {
@@ -268,8 +298,14 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
                 keys.forEach(item => {
 
-                    items.push(item);
-                    values.push(localStorageService.get(item).value);
+                    //ponownie - zabezpieczenie, by nie wczytać elementu z localStorage, ktory nie jest zawodnikiem, a np. dana z wizarda
+
+                    if (localStorageService.get(item).value != undefined) {
+
+                        items.push(item);
+                        values.push(localStorageService.get(item).value);
+
+                    }
 
                 })
 
@@ -386,7 +422,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
             //jesli funkcja sprawdzajaca, czy zawodnik jest zbyt mlody - jesli zwroci false, to wiek ok
 
-            if (!$scope.checkAge(diffYears)){
+            if (!$scope.checkAge(diffYears)) {
 
                 $scope.age = diffYears;
             }

@@ -1,4 +1,19 @@
-<h1>Test 3</h1>
-<md-button ng-click="prev()">Wstecz</md-button>
-<md-button ng-click="next()">Dalej</md-button>
-<md-button ng-click="abort()">Anuluj</md-button>
+<div layout="column" layout-align="center center">
+
+    <h1>Okno 3</h1>
+    <div>
+
+        <md-checkbox ng-model="option1">Opcja 1</md-checkbox>
+        <md-checkbox ng-model="option2">Opcja 2</md-checkbox>
+        <md-checkbox ng-model="option3">Opcja 3</md-checkbox>
+
+    </div>
+    <div layout="row">
+        <md-button ng-click="prev()">Wstecz</md-button>
+        <md-button ng-click="next()">Dalej</md-button>
+        <md-button ng-click="abort()">Anuluj</md-button>
+    </div>
+
+
+
+</div>

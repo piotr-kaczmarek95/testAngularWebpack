@@ -1,4 +1,13 @@
-<h1>Test 2</h1>
-<md-button ng-click="prev()">Wstecz</md-button>
-<md-button ng-click="next()">Dalej</md-button>
-<md-button ng-click="abort()">Anuluj</md-button>
+<div layout="column" layout-align="center center">
+
+    <h1>Okno 2</h1>
+    <label>Podaj wiek</label>
+    <input type="number" ng-model="age" ng-change="tooYoung()">
+    <div layout="row">
+        <md-button ng-click="prev()">Wstecz</md-button>
+        <md-button ng-click="next()" ng-disabled="lockSecondWindow">Dalej</md-button>
+        <md-button ng-click="abort()">Anuluj</md-button>
+    </div>
+
+
+</div>
