@@ -58,7 +58,7 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
 
-        display: none;
+        /* display: none; */
     }
 
     .dialogBox {
@@ -94,14 +94,14 @@
         text-align: justify;
     }
 
-    #panel-2 {
+    /* #panel-2 {
 
         display: none;
     }
 
     #panel-3 {
         display: none;
-    }
+    } */
 </style>
 
 
@@ -207,7 +207,7 @@
 
 <!-- pierwsze okno  -->
 
-<div class="panel" id="panel-1">
+<div class="panel" id="panel-1" ng-show="wizardWindowVisible.w1">
 
     <div class="dialogBox" layout="column">
 
@@ -244,7 +244,7 @@
 
 <!-- drugie okno  -->
 
-<div class="panel" id="panel-2">
+<div class="panel" id="panel-2" ng-show="wizardWindowVisible.w2">
 
     <div class="dialogBox" layout="column">
 
@@ -283,7 +283,7 @@
 
 <!-- trzecie okno  -->
 
-<div class="panel" id="panel-3">
+<div class="panel" id="panel-3" ng-show="wizardWindowVisible.w3">
 
     <div class="dialogBox" layout="column">
 
@@ -299,7 +299,7 @@
             consectetur? Quisquam blanditiis harum nihil.
         </div>
 
-        <div layout="row" layout-align="space-between center" style="margin-bottom: 20px;">
+        <div layout="row" layout-align="space-around center" style="margin-bottom: 20px;">
 
 
             <md-checkbox ng-model="option1">Opcja 1</md-checkbox>
@@ -322,7 +322,7 @@
 
 <!-- podsumowanie   -->
 
-<div class="panel" id="panel-4">
+<div class="panel" id="panel-4" ng-show="wizardWindowVisible.w4">
 
     <div class="dialogBox" layout="column" layout-align="">
 
@@ -336,9 +336,9 @@
             <p style="text-align: center;">Twój wybór to:</p>
             <p>Nazwa użytkownika: {{userName}}</p>
             <p>Wiek: {{userAge}}</p>
-            <p>Opcja 1: <span ng-show="option1">Tak</span><span ng-show="!option1">Nie</span></p>
-            <p>Opcja 2: <span ng-show="option2">Tak</span><span ng-show="!option2">Nie</span></p>
-            <p>Opcja 3: <span ng-show="option3">Tak</span><span ng-show="!option3">Nie</span></p>
+            <p>Opcja 1: {{option1 | translateValue}}</p>
+            <p>Opcja 2: {{option2 | translateValue}}</p>
+            <p>Opcja 3: {{option3 | translateValue}}</p>
         </div>
 
         <div class="dialogButtons" layout="row" layout-align="space-between center">

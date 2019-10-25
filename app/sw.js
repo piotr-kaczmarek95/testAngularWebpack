@@ -13,6 +13,7 @@ var urlsToCache = [
   '858a424ab82fbf8eac6221400fad1364.svg',
 
   'footer.html',
+  'zz.jpg' //tymczasowe wylaczenie 
 
 ];
 

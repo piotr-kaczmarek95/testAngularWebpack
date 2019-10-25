@@ -13,6 +13,20 @@ angular.module('homeworkProject.view1', ['ngRoute'])
     });
   }])
 
+  .filter('translateValue', function () {
+    return function (item) {
+
+      if (item == true) {
+
+        return "tak";
+      } else {
+
+        return "nie";
+      }
+
+    };
+  })
+
   .controller('View1Ctrl', ['$scope', '$mdBottomSheet', '$mdMenu', function ($scope, $mdBottomSheet, $mdMenu) {
 
     $scope.showText = function () {
@@ -88,38 +102,40 @@ angular.module('homeworkProject.view1', ['ngRoute'])
     // const header = document.querySelector("h1");
     // console.log(header.innerText); //działa
 
+    //domyslne ukrycie okien
+
+    $scope.wizardWindowVisible = {
+
+      w1: false,
+      w2: false,
+      w3: false,
+      w4: false
+    }
+
+
     //24.10
 
     $scope.showWizard = function () {
 
-      document.querySelector("#panel-1").style.display = "block";
+      // document.querySelector("#panel-1").style.display = "block";
+      $scope.wizardWindowVisible.w1 = true;
     }
 
     $scope.abort = function ($event) {
 
       console.log("Kliknales anuluj!");
-      // console.log($event.target.id);
 
-      //wylaczam panel, ktory ma ustawiony display: block
+      //ukrycie aktualnie widocznego okna
 
-      let panels = document.querySelectorAll(".panel");
+      for (let property in $scope.wizardWindowVisible) {
 
-      for (let i = 0; i < panels.length; i++) {
+        if ($scope.wizardWindowVisible[property] == true) {
 
-        if (panels[i].style.display == "block") {
-
-          panels[i].style.display = "none";
+          $scope.wizardWindowVisible[property] = false;
           break;
         }
 
       }
-
-      //recznie tez mozna
-
-      // document.querySelector("#panel-1").style.display = "none";
-      // document.querySelector("#panel-2").style.display = "none";
-      // document.querySelector("#panel-3").style.display = "none";
-      // document.querySelector("#panel-4").style.display = "none";
 
       //resetowanie wprowadzonych danych do wartości początkowej
       $scope.userName = "";
@@ -149,30 +165,13 @@ angular.module('homeworkProject.view1', ['ngRoute'])
 
       if (($event.target.id.charAt($event.target.id.length - 1) == 2) && $scope.tooYoung) return; //zabezpieczenie na wypadek zbyt niskiego wieku podawanego w slajdzie drugim
 
-      //urkywam dotychczas widoczne okno - sklejam jego id
+      let currentIndex = parseInt($event.target.id.charAt($event.target.id.length - 1)); //obecny slajd
 
-      let currentVisibleId = "panel-" + ($event.target.id.charAt($event.target.id.length - 1));
-      console.log("Wylaczam widocznosc " + currentVisibleId);
-
-      // console.log(document.querySelector("#"+currentVisibleId));
-
-      document.querySelector("#" + currentVisibleId).style.display = "none";
-
-      //zmieniam indeks, by wskazywal na kolejne okno
-
-      let nextVisibleIndex = parseInt($event.target.id.charAt($event.target.id.length - 1)) + 1;
-      console.log(nextVisibleIndex);
-
-      //sklejam id kolejnego panelu
-
-      let nextVisible = "#panel-" + (nextVisibleIndex);
-      console.log(nextVisible);
-
-      console.log(document.querySelector(nextVisible));
-
-      //i ustawiam widocznosc
-
-      document.querySelector(nextVisible).style.display = "block";
+      // console.log("$scope.wizardWindowVisible.w"+currentIndex);
+      eval("$scope.wizardWindowVisible.w" + currentIndex + "=false");
+      // console.log("$scope.wizardWindowVisible.w"+currentIndex+"=false");
+      eval("$scope.wizardWindowVisible.w" + (currentIndex + 1) + "=true");
+      // console.log("$scope.wizardWindowVisible.w"+(currentIndex+1)+"=true");
 
     }
 
@@ -181,34 +180,19 @@ angular.module('homeworkProject.view1', ['ngRoute'])
       console.log("Kliknales prev!");
       console.log($event.target.id);
 
-      console.log("Kliknales next!");
-
       // teraz widze to okno
 
       console.log($event.target.id.charAt($event.target.id.length - 1));
 
-      //urkywam
+      let currentIndex = parseInt($event.target.id.charAt($event.target.id.length - 1));
 
-      let currentVisibleId = "panel-" + ($event.target.id.charAt($event.target.id.length - 1));
-      console.log("Wylaczam widocznosc " + currentVisibleId);
+      // ukrycie obecnego okna 
 
-      // console.log(document.querySelector("#"+currentVisibleId));
+      eval("$scope.wizardWindowVisible.w" + currentIndex + "=false");
 
-      document.querySelector("#" + currentVisibleId).style.display = "none";
+      // pokazanie poprzedniego 
 
-      //a musze zobaczyc poprzednie - zmniejszam indeks o jeden
-
-      let nextVisibleIndex = parseInt($event.target.id.charAt($event.target.id.length - 1)) - 1;
-      console.log(nextVisibleIndex);
-
-      let nextVisible = "#panel-" + (nextVisibleIndex);
-      console.log(nextVisible);
-
-      //i ustawiam widocznosc
-
-      console.log(document.querySelector(nextVisible));
-
-      document.querySelector(nextVisible).style.display = "block";
+      eval("$scope.wizardWindowVisible.w" + (currentIndex - 1) + "=true");
 
     }
 
@@ -232,10 +216,10 @@ angular.module('homeworkProject.view1', ['ngRoute'])
       if ($scope.userName != undefined && $scope.userName.length > 1) {
 
         $scope.disableProgress = false;
-      }else{
+      } else {
 
         $scope.disableProgress = true;
-      } 
+      }
 
       console.log("Wartosc disable progress " + $scope.disableProgress);
 
