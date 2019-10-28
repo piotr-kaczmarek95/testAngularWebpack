@@ -3,12 +3,12 @@
     <h1>Okno 4 - podsumowanie</h1>
     <h2>Podane wartości:</h2>
 
-    <p>{{finalSettings.userName}}</p>
-    <p>{{finalSettings.userSurname}}</p>
-    <p>{{finalSettings.userAge}}</p>
-    <p>{{finalSettings.option1}}</p>
-    <p>{{finalSettings.option2}}</p>
-    <p>{{finalSettings.option3}}</p>
+    <p>Imię: {{finalSettings.userName}}</p>
+    <p>Nazwisko: {{finalSettings.userSurname}}</p>
+    <p>Wiek: {{finalSettings.userAge}}</p>
+    <p>Opcja 1: {{finalSettings.option1 | translateValue}}</p>
+    <p>Opcja 2: {{finalSettings.option2 | translateValue}}</p>
+    <p>Opcja 3: {{finalSettings.option3 | translateValue}}</p>
 
 
 
@@ -19,7 +19,7 @@
         <md-button ng-click="prev()">Wstecz</md-button>
         <md-button ng-disabled="true">Dalej</md-button>
         <md-button ng-click="abort()">Anuluj</md-button>
-        <md-button class="md-warn" ng-click="abort()">Zatwierdź</md-button>
+        <md-button class="md-warn" ng-click="confirm()">Zatwierdź</md-button>
 
     </div>
 
