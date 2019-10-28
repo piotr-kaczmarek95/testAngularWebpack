@@ -27,10 +27,6 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
 
     .controller('wizardsController', ['$scope', '$http', '$location', 'localStorageService', function ($scope, $http, $location, localStorageService) {
 
-        console.log("Hello world!");
-
-        $scope.storedData = {};
-
         let key = "user";
 
         $scope.next = function () {
@@ -87,7 +83,7 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
             // $scope.abort();
         }
 
-        $scope.reload = function () {
+        const reload = function () {
 
             //przy kazdym zaladowaniu widoku - nieistotne czy spowodowalo je klikniecie prev czy next - pobranie obiektu z local storage
 
@@ -107,6 +103,6 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
             }
         }
 
-        $scope.reload(); //przy kazdym przeladowaniu
+        reload(); //przy kazdym przeladowaniu
 
     }])
