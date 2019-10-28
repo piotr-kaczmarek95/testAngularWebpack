@@ -13,9 +13,9 @@
     <h1>Test 1</h1>
 
     <label>Podaj imię</label>
-    <input type="text" ng-model="name" ng-change="tooShort()">
+    <input type="text" ng-model="storedData.userName" ng-change="tooShort()">
     <label>Podaj nazwisko</label>
-    <input type="text" ng-model="surname" ng-change="tooShort()">
+    <input type="text" ng-model="storedData.userSurname" ng-change="tooShort()">
 
     <div layout="row">
         <md-button ng-disabled="true">Wstecz</md-button>

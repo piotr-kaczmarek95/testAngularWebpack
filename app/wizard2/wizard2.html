@@ -10,7 +10,7 @@
 
     <h1>Okno 2</h1>
     <label>Podaj wiek</label>
-    <input type="number" ng-model="age" ng-change="tooYoung()">
+    <input type="number" ng-model="storedData.userAge" ng-change="tooYoung()">
     <div layout="row">
         <md-button ng-click="prev()">Wstecz</md-button>
         <md-button ng-click="next()" ng-disabled="lockSecondWindow">Dalej</md-button>

@@ -31,41 +31,76 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
 
         $scope.lockFirstWindow = true;
         $scope.lockSecondWindow = true;
-        $scope.option1 = false;
-        $scope.option2 = false;
-        $scope.option3 = false;
-        $scope.finalSettings = undefined;
-        let key = "userData";
+        // $scope.option1 = false;
+        // $scope.option2 = false;
+        // $scope.option3 = false;
+
+        $scope.storedData = {};
+
+        let key = "user";
 
         $scope.next = function () {
 
             console.log($location.path()); //pokazuje aktualna lokalizacje
             // console.log(typeof ($location.path())); //string
 
-            // console.log($location.path().charAt($location.path().length-1)); //ostatni znak
+            ///Pobieranie zrealizowane juz w funkcji reload/////
+            // if (localStorageService.get(key) != null) $scope.storedData = localStorageService.get(key); //zawsze pobieraj?      
 
             let nextIndex = parseInt($location.path().charAt($location.path().length - 1)) + 1; //inkrementacja indeksu
 
             $location.path("/wizard" + nextIndex); //przejscie do kolejnego okna wizarda
 
-            if (nextIndex == 2) {
+            // if (nextIndex == 2) {
 
-                localStorageService.set("userName", $scope.name);
-                localStorageService.set("userSurname", $scope.surname);
-            }
+            //     // console.log($scope.name, $scope.surname);
 
-            if (nextIndex == 3) {
+            //     // localStorageService.set("userName", $scope.name);
+            //     // localStorageService.set("userSurname", $scope.surname);
 
-                localStorageService.set("userAge", $scope.age);
-            }
+            //     //pobranie ze storage obiektu z obecnie wpisanymi danymi
+            //     // if ($scope.storedData) {
+            //     //     $scope.storedData = localStorageService.get(key);
+            //     // }
+            //     // dopisanie własności
+
+            //     //niepotrzebnie, bo już tak nazywam?
+
+            //     // $scope.storedData.userName = $scope.name;
+            //     // $scope.storedData.userSurname = $scope.surname;
+
+            //     //zapisanie do storage
+            //     localStorageService.set(key, $scope.storedData);
+            // }
+
+            // if (nextIndex == 3) {
+
+            //     // localStorageService.set("userAge", $scope.age);
+
+
+            //     //pobranie ze storage obiektu z obecnie wpisanymi danymi
+            //     // if ($scope.storedData) {
+            //     //     $scope.storedData = localStorageService.get(key);
+            //     // }
+            //     // dopisanie własności
+            //     // $scope.storedData.userAge = $scope.age;
+            //     //zapisanie do storage              
+
+            //     localStorageService.set(key, $scope.storedData);
+
+            // }
 
             if (nextIndex == 4) {
+           
+                //gdy niekliknięte ustawiam na false zamiast undefined
+                if ($scope.storedData.option1 == undefined) $scope.storedData.option1 = false;
+                if ($scope.storedData.option2 == undefined) $scope.storedData.option2 = false;
+                if ($scope.storedData.option3 == undefined) $scope.storedData.option3 = false;
+                // localStorageService.set(key, $scope.storedData);
 
-                localStorageService.set("option1", $scope.option1);
-                localStorageService.set("option2", $scope.option2);
-                localStorageService.set("option3", $scope.option3);
-                // $scope.summarise();             
             }
+
+            localStorageService.set(key, $scope.storedData);
         }
 
         $scope.prev = function () {
@@ -78,14 +113,15 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
         $scope.abort = function () {
 
             $location.path("/view1");
-            localStorageService.remove("userName", "userSurname", "userAge", "option1", "option2", "option3"); //usuniecie zmiennych tymczasowo przechowujacych wprowadzone dane
+
+            localStorageService.remove(key);
         }
 
         $scope.tooYoung = function () {
 
-            if ($scope.age != undefined) {
+            if ($scope.storedData.userAge != undefined) {
 
-                if ($scope.age < 15) {
+                if ($scope.storedData.userAge < 15) {
                     $scope.lockSecondWindow = true;
                 } else {
                     $scope.lockSecondWindow = false;
@@ -100,7 +136,7 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
 
             // zabezpieczenie minimalnej dlugosci imienia i nazwiska
 
-            if ($scope.name != undefined && $scope.name.length > 1 && $scope.surname != undefined && $scope.surname.length > 1) {
+            if ($scope.storedData.userName != undefined && $scope.storedData.userName.length > 1 && $scope.storedData.userSurname != undefined && $scope.storedData.userSurname.length > 1) {
 
                 $scope.lockFirstWindow = false;
             } else {
@@ -116,66 +152,55 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
 
             console.log("Podsumowanie!");
 
-            var keys = localStorageService.keys();
-            console.log(keys);
-
-            $scope.finalSettings = {
-
-                userName: localStorageService.get("userName"),
-                userSurname: localStorageService.get("userSurname"),
-                userAge: localStorageService.get("userAge"),
-                option1: localStorageService.get("option1"),
-                option2: localStorageService.get("option2"),
-                option3: localStorageService.get("option3")
-            }
-
-            // localStorageService.remove("userName", "userSurname", "userAge", "option1", "option2", "option3");
-
+            $scope.finalSettings = localStorageService.get(key);
             // console.log($scope.finalSettings);
-
-            localStorageService.set("finalSettings", $scope.finalSettings);
-            console.log($scope.finalSettings);
-
-
         }
 
         $scope.confirm = function () {
 
             alert("Dane zatwierdzone!");
 
-            $scope.abort();
+            // $scope.abort();
         }
 
         //przejcie do czwartego ekranu wizarda powoduje zebranie wprowadzonych danych do pojedynczego obiektu w local storage i wyswietlenie 
 
-        if ($location.path() == "/wizard4") {
+        //przeniesione do funkcji reload
 
-            $scope.summarise();
-        }
+        // if ($location.path() == "/wizard4") {
+
+        //     $scope.summarise();
+        // }
 
         $scope.reload = function () {
 
+            //przy kazdym zaladowaniu widoku - nieistotne czy spowodowalo go klikniecie prev czy next - pobranie obiektu z local storage
+
+            //dzieki temu przy cofaniu pola beda wypelnione wartosciami podanymi wczesniej przez uzytkownika
+
+            if (localStorageService.get(key) != null){
+
+                $scope.storedData = localStorageService.get(key); //pobranie akutalnej zawartosci danych z local storage i przypisanie do obiektu, na ktorym operuja inputy
+                console.log("Pobrane stored data");
+                console.log($scope.storedData);
+
+            }        
+
             if ($location.path() == "/wizard1") {
 
-                //gdy sie cofam ze slajdu 2- wpisuje w inputy to, co juz wczesniej podal uzytkownik
 
-                $scope.name = localStorageService.get("userName");
-                $scope.surname = localStorageService.get("userSurname");
                 $scope.tooShort(); //gdy cofam sie ze slajdu 2 - automatyczne sprawdzenie (a nie przy zmianie tekstu w inpucie)
 
             }
 
             if ($location.path() == "/wizard2") {
 
-                $scope.age = localStorageService.get("userAge");
                 $scope.tooYoung();
             }
 
             if ($location.path() == "/wizard3") {
 
-                $scope.option1 = localStorageService.get("option1");
-                $scope.option2 = localStorageService.get("option2");
-                $scope.option3 = localStorageService.get("option3");
+            
             }
 
             if ($location.path() == "/wizard4") {
