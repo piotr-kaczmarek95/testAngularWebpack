@@ -5,17 +5,21 @@
     }
 </style>
 
-
 <div layout="column" layout-align="center center">
 
     <h1>Okno 2</h1>
     <label>Podaj wiek</label>
-    <input type="number" ng-model="storedData.userAge" ng-change="tooYoung()">
+
+    <form name="ageForm">
+
+        <input type="number" ng-model="storedData.userAge" ng-min="15" ng-required="true">
+
+    </form>
+
     <div layout="row">
         <md-button ng-click="prev()">Wstecz</md-button>
-        <md-button ng-click="next()" ng-disabled="lockSecondWindow">Dalej</md-button>
+        <md-button ng-click="next()" ng-disabled="ageForm.$invalid">Dalej</md-button>
         <md-button ng-click="abort()">Anuluj</md-button>
     </div>
-
 
 </div>

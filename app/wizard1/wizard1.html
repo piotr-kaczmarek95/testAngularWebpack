@@ -1,25 +1,29 @@
 <style>
-
-    input{
+    input {
 
         margin: 20px;
     }
-
-
 </style>
 
 <div layout="column" layout-align="center center">
 
     <h1>Test 1</h1>
 
-    <label>Podaj imię</label>
-    <input type="text" ng-model="storedData.userName" ng-change="tooShort()">
-    <label>Podaj nazwisko</label>
-    <input type="text" ng-model="storedData.userSurname" ng-change="tooShort()">
+
+    <form name="userForm">
+
+        <label>Podaj imię</label>
+        <input type="text" ng-model="storedData.userName" ng-required="true" ng-minlength="2">
+        <label>Podaj nazwisko</label>
+
+        <input type="text" ng-model="storedData.userSurname" ng-required="true" ng-minlength="2">
+
+    </form>
 
     <div layout="row">
         <md-button ng-disabled="true">Wstecz</md-button>
-        <md-button ng-click="next()" ng-disabled="lockFirstWindow">Dalej</md-button>
+        <!-- <md-button ng-click="next()" ng-disabled="lockFirstWindow">Dalej</md-button> -->
+        <md-button ng-click="next()" ng-disabled="userForm.$invalid">Dalej</md-button>
         <md-button ng-click="abort()">Anuluj</md-button>
     </div>
 
