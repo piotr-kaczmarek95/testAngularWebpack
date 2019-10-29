@@ -66,15 +66,7 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
             $location.path("/view1");
 
             localStorageService.remove(key);
-        }       
-
-        $scope.summarise = function () {
-
-            console.log("Podsumowanie!");
-
-            $scope.finalSettings = localStorageService.get(key);
-            // console.log($scope.finalSettings);
-        }
+        } 
 
         $scope.confirm = function () {
 
@@ -95,12 +87,7 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
                 console.log("Pobrane stored data");
                 console.log($scope.storedData);
 
-            }
-
-            if ($location.path() == "/wizard4") {
-
-                $scope.summarise();
-            }
+            }           
         }
 
         reload(); //przy kazdym przeladowaniu
