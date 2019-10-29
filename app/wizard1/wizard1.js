@@ -66,7 +66,8 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
             $location.path("/view1");
 
             localStorageService.remove(key);
-        } 
+            localStorageService.remove("imgData"); //kasowanie zapisanego obrazu użytkownika
+        }
 
         $scope.confirm = function () {
 
@@ -87,9 +88,69 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
                 console.log("Pobrane stored data");
                 console.log($scope.storedData);
 
-            }           
+            }
         }
 
         reload(); //przy kazdym przeladowaniu
+
+        //////dodanie obrazka
+
+        if ($location.path() == "/wizard2") {
+
+            const inputElement = document.getElementById("photo"); //kontener w html na zdjęcie
+            // console.log(inputElement);
+            if (inputElement) {
+
+                inputElement.addEventListener("change", handleFiles, false);
+
+                function handleFiles() {
+
+                    let image = inputElement.files[0];
+                    console.log(image);
+
+                    let reader = new FileReader();
+                    reader.readAsDataURL(image);
+
+                    //po zaladowaniu elementu
+                    reader.onload = function (e) {
+                        $scope.imgUploaded = true;
+                        document.getElementById("display-image").src = e.target.result;
+                        console.log(document.getElementById("display-image"));
+                        localStorageService.set("imgData", e.target.result);
+                        // console.log(e.target.result);
+                        // console.log(typeof e.target.result);                     
+
+                    }
+                }
+            }
+
+            if (localStorageService.get("imgData")) {
+
+                $scope.imgUploaded = true;
+
+
+            } else {
+                $scope.imgUploaded = false;
+            }
+        }
+
+        if ($location.path() == "/wizard4") {
+
+            //pobranie src zapisanego w slajdzie drugim 
+
+            let imgData = localStorageService.get("imgData")
+
+            // console.log(imgData);
+            // console.log("Typ imgData " + typeof imgData);
+
+            //docelowy element DOM, w którym ma znaleźć się obraz
+            const img = document.getElementById("photo");
+            // console.log(img);
+            img.src = imgData;
+
+            // console.log(img.src);
+            // console.log(img);
+        }
+
 
     }])

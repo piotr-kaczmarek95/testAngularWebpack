@@ -245,11 +245,25 @@ angular.module('homeworkProject.view1', ['ngRoute'])
     $scope.option2 = false;
     $scope.option3 = false;
 
-    $scope.fullWizard = function (){
+    $scope.fullWizard = function () {
 
       // console.log($location.path()); //pokazuje /view1 - aktualny widok!
 
       $location.path("/wizard1"); //przekierowanie do widoku wizarda - pamiętac o dodaniu $location do zależności
     }
+
+    // let inputElement = document.getElementById("photo");
+    // console.log(inputElement);
+    // if (inputElement) {
+
+    //   inputElement.addEventListener("change", handleFiles, false);
+
+    //   function handleFiles() {
+    //     let fileList = this.files; /* now you can work with the file list */
+    //     console.log(fileList);
+    //     console.log("Wgrywane");
+    //   }
+
+    // }
 
   }]);

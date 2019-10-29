@@ -8,17 +8,21 @@
 <div layout="column" layout-align="center center">
 
     <h1>Okno 2</h1>
-    <label>Podaj wiek</label>
+    <label>Podaj wiek i wgraj zdjęcie</label>
 
     <form name="ageForm">
 
         <input type="number" ng-model="storedData.userAge" ng-min="15" ng-required="true">
+        <!-- proba dodania wczytywania zdjec -->
+        <input type="file" id="photo" accept="image/png, image/jpeg">
 
     </form>
 
+    <img id="display-image" src="">
+
     <div layout="row">
         <md-button ng-click="prev()">Wstecz</md-button>
-        <md-button ng-click="next()" ng-disabled="ageForm.$invalid">Dalej</md-button>
+        <md-button ng-click="next()" ng-disabled="ageForm.$invalid || !imgUploaded">Dalej</md-button>
         <md-button ng-click="abort()">Anuluj</md-button>
     </div>
 
