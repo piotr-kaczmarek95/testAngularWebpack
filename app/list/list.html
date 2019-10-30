@@ -45,7 +45,7 @@
         font-weight: bold;
     }
 
-    .container li{
+    .container li {
 
         border-radius: 10px 10px 10px 10px;
     }
@@ -54,12 +54,6 @@
 
         background-color: #BDBDBD;
     }
-
-    /* div>.md-button {
-
-        width: 30%;
-        margin: 0 auto;
-    } */
 
     .groupX {
         font-size: 16px;
@@ -93,14 +87,6 @@
         transition: 0.3s;
     }
 
-    @media (max-width: 640px){
-
-        .md-button{
-
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-    }
 </style>
 
 <md-toolbar>
@@ -122,7 +108,9 @@
                 <md-button>
 
                     <!-- <md-icon md-svg-src="../svgs/account.svg"></md-icon> -->
-                    <md-icon md-svg-src="{{account}}"></md-icon>
+                    <!-- import pliku svg do zmiennej na potrzeby webpacka -->
+                    <!-- <md-icon md-svg-src="{{account}}"></md-icon>  -->
+                    <img ng-src={{player.img}} width="50px" class="playerPhoto">
                     {{player.name+" "+ player.surname}}
 
                 </md-button>
@@ -161,14 +149,14 @@
 
     <!-- przyklad uzaleznienia wygladu od rozdzielczosci wyswietlacza -->
 
-    <div flex  layout="row" layout-sm="column" layout-align="center center">      
+    <div flex layout="row" layout-sm="column" layout-align="center center">
 
         <md-button class="groupX left" ng-click="showAllEntries()">Pokaż wpisy w konsoli</md-button>
         <!-- <md-button class="md-accent md-hue-3" ng-click="showAllEntries()">Pokaż wpisy w konsoli</md-button> -->
         <md-button class="groupX middle" ng-click="printChart()">Rysuj wykres</md-button>
         <md-button class="groupX middle" ng-click="sortByProperty('name')">Ułóż imionami</md-button>
         <md-button class="groupX middle" ng-click="sortByProperty('surname')">Ułóż nazwiskami</md-button>
-        <md-button class="groupX right" ng-click="clearAll()">Wyczyść localStorage</md-button>
+        <md-button class="groupX right" ng-click="clearAll()">Wyczyść listę</md-button>
 
     </div>
 

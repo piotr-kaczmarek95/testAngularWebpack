@@ -57,7 +57,8 @@ angular.module('homeworkProject.players', ['ngRoute'])
                             name: localStorageService.get(item).name,
                             surname: item,
                             age: localStorageService.get(item).age,
-                            value: localStorageService.get(item).value
+                            value: localStorageService.get(item).value,
+                            img: localStorageService.get(item).img
                         })
 
                     }
@@ -66,9 +67,23 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
             clearAll: function (playerData) {
 
-                localStorageService.clearAll();
+                let keys = localStorageService.keys()
+
+                console.log("Wypisanie porzed kasowaniem!");
+
+                //usune tylko te klucze, ktore jako wartosc maja obiekt zawierajacy atrybut name - wtedy bede wiedzial, ze to zawodnik, a nie np. obraz czy dane użytkownika 
+
+                for (let i = 0; i < keys.length; i++) {
+
+                    console.log(localStorageService.get(keys[i]));
+                    if ('name' in localStorageService.get(keys[i])) {
+
+                        localStorageService.remove(keys[i]);
+                    }
+                }
+
                 playerData.length = 0;
-                console.log("Wyczyszczono local storage");
+                console.log("Usunięto zawodników z local storage");
             },
 
             removeFromStorage: function (surname, playerData) {
@@ -166,7 +181,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
                 if (localStorageService.get(keys[i]).name != undefined) {
 
-                    console.log("dodaje"+localStorageService.get(keys[i]).name);
+                    console.log("dodaje" + localStorageService.get(keys[i]).name);
                     $scope.surnames.push(keys[i]);
                 }
             }
@@ -216,12 +231,13 @@ angular.module('homeworkProject.players', ['ngRoute'])
         $scope.text = "Dodaj lub edytuj zawodnika. Wielkość liter w wyszukiwarce nie ma znaczenia.";
         $scope.playerData = [];
 
-        $scope.itemToStorage = function (name, surname, age, value) {
+        $scope.itemToStorage = function (name, surname, age, value, img) {
 
             localStorageService.set(surname, {
                 name: name,
                 age: age,
-                value: value
+                value: value,
+                img: img
             });
 
             $scope.importFromStorage(); //aktualizacja wyswietlenia 
@@ -232,6 +248,10 @@ angular.module('homeworkProject.players', ['ngRoute'])
             $scope.surname = "";
             $scope.value = "";
             $scope.age = "";
+            $scope.img = "";
+
+            document.getElementById('container').src = $scope.img;
+
 
             $scope.playerForm.playerSurname.$dirty = false;
             $scope.playerForm.playerName.$dirty = false;
@@ -347,6 +367,14 @@ angular.module('homeworkProject.players', ['ngRoute'])
                         $scope.surname = $scope.playerData[i].surname;
                         $scope.age = $scope.playerData[i].age;
                         $scope.value = $scope.playerData[i].value;
+                        $scope.img = $scope.playerData[i].img;
+                        //wypelnienie kontenera obrazkiem
+                        if ($scope.img.length > 0) {
+
+                            document.getElementById('container').src = $scope.img;
+                        }
+
+
                         break;
                     }
                 }
@@ -430,5 +458,36 @@ angular.module('homeworkProject.players', ['ngRoute'])
         }
 
         $scope.importFromStorage(); //wywołanie, by zawartość wyświetliła się przy przeładowaniu widoku
+
+        if ($location.path() == "/players") {
+
+            console.log("Jestem w players!");
+
+            const inputElement = document.getElementById("photo"); //kontener w html na zdjęcie
+            // console.log(inputElement);
+            if (inputElement) {
+
+                inputElement.addEventListener("change", handleFiles, false);
+
+                function handleFiles() {
+
+                    let image = inputElement.files[0];
+                    console.log(image);
+
+                    let reader = new FileReader();
+                    reader.readAsDataURL(image);
+
+                    //po zaladowaniu elementu
+                    reader.onload = function (e) {
+
+                        $scope.imgUploaded = true;
+                        document.getElementById("container").src = e.target.result;
+                        console.log(document.getElementById("container"));
+                        $scope.img = e.target.result; //podstawiam pod zmienna, ktora bedzie pozniej wrzucona do obiektu przechowujacego dane zawodnika  (w funkcji itemToStorage)                               
+
+                    }
+                }
+            }
+        }
 
     }]);

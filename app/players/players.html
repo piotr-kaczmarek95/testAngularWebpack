@@ -4,14 +4,8 @@
 <style>
     input {
 
-        width: 35%;
+        /* width: 35%; */
         margin: 0 auto;
-    }
-
-    form>input {
-
-        /* width: 70%; */
-        width: 100%;
     }
 
     h1 {
@@ -48,7 +42,7 @@
 
     .narrow {
 
-        width: 15%;
+        max-width: 15%;
         margin: 10px auto;
     }
 
@@ -57,9 +51,31 @@
         border-radius: 10px 10px 10px 10px;
     }
 
-    .md-datepicker-calendar-icon{
+    .md-datepicker-calendar-icon {
 
         margin: 0px;
+    }
+
+    .textinput {
+
+        width: 100%;
+    }
+
+    input[type="file"] {
+
+        display: none;
+    }
+
+    .fileUpload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        margin: 20px;
+    }
+
+    #container{
+        margin: 10px 0;
     }
 
     /* button.md-datepicker-button{
@@ -105,10 +121,10 @@
 
 <div class="playerForm">
 
-    <form name="playerForm" ng-submit="itemToStorage(name, surname, age, value)">
+    <form name="playerForm" ng-submit="itemToStorage(name, surname, age, value, img)">
 
-        <span class="property">Imię:</span><br><input type="text" ng-model="name" ng-required="true" ng-minlength="2"
-            name="playerName">
+        <span class="property">Imię:</span><br><input class="textinput" type="text" ng-model="name" ng-required="true"
+            ng-minlength="2" name="playerName">
 
         <br>
 
@@ -118,8 +134,8 @@
 
         <br> <br>
 
-        <span class="property">Nazwisko:</span> <br> <input type="text" ng-model="surname" ng-required="true"
-            ng-minlength="2" name="playerSurname">
+        <span class="property">Nazwisko:</span> <br> <input class="textinput" type="text" ng-model="surname"
+            ng-required="true" ng-minlength="2" name="playerSurname">
 
         <br>
 
@@ -127,13 +143,14 @@
             pole</span>
         <span ng-show="playerForm.playerSurname.$error.minlength">Za krótki wpis!</span>
 
-        <br> <br>  
+        <br> <br>
 
         <span> Data urodzenia:</span>
-        <md-datepicker ng-model="myDate" md-placeholder="Podaj datę" md-current-view="year" ng-change="calcAge()" ng-required="true">
+        <md-datepicker ng-model="myDate" md-placeholder="Podaj datę" md-current-view="year" ng-change="calcAge()"
+            ng-required="true">
         </md-datepicker>
 
-        <span ng-show="showAgeWarning"> <br>  Zbyt mała wartość!</span>
+        <span ng-show="showAgeWarning"> <br> Zbyt mała wartość!</span>
         <br> <br>
 
         <!-- <span class="property">Wartość:</span> <br> <input type="number" ng-model="value" ng-min="0"
@@ -147,6 +164,15 @@
                 <input type="number" ng-model="value" aria-label="value" aria-controls="value">
             </md-input-container>
         </md-slider-container>
+
+        <label class="fileUpload">
+
+            <input type="file" id="photo" accept="image/png, image/jpeg">
+            Załaduj obrazek
+        </label>
+
+
+        <img id="container" src="" style="width: 100%">
 
         <!-- <input class="send" type="submit" value="Wyślij/Zmień" ng-disabled="playerForm.$invalid || showAgeWarning"> -->
 

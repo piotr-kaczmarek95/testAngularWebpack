@@ -94,7 +94,7 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
 
             if ($location.path() == "/wizard2") {
 
-                const inputElement = document.getElementById("photo"); //kontener w html na zdjęcie
+                const inputElement = document.getElementById("photo"); //input, ktorym wgrywam zdjecier
                 // console.log(inputElement);
                 if (inputElement) {
 
@@ -111,7 +111,7 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
                         //po zaladowaniu elementu
                         reader.onload = function (e) {
                             $scope.imgUploaded = true;
-                            document.getElementById("display-image").src = e.target.result;
+                            document.getElementById("display-image").src = e.target.result; //kontener na obrazek
                             console.log(document.getElementById("display-image"));
                             localStorageService.set("imgData", e.target.result);
                             // console.log(e.target.result);
