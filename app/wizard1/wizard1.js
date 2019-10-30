@@ -89,68 +89,74 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
                 console.log($scope.storedData);
 
             }
-        }
 
-        reload(); //przy kazdym przeladowaniu
+            ////////obsluga obrazka
 
-        //////dodanie obrazka
+            if ($location.path() == "/wizard2") {
 
-        if ($location.path() == "/wizard2") {
+                const inputElement = document.getElementById("photo"); //kontener w html na zdjęcie
+                // console.log(inputElement);
+                if (inputElement) {
 
-            const inputElement = document.getElementById("photo"); //kontener w html na zdjęcie
-            // console.log(inputElement);
-            if (inputElement) {
+                    inputElement.addEventListener("change", handleFiles, false);
 
-                inputElement.addEventListener("change", handleFiles, false);
+                    function handleFiles() {
 
-                function handleFiles() {
+                        let image = inputElement.files[0];
+                        console.log(image);
 
-                    let image = inputElement.files[0];
-                    console.log(image);
+                        let reader = new FileReader();
+                        reader.readAsDataURL(image);
 
-                    let reader = new FileReader();
-                    reader.readAsDataURL(image);
+                        //po zaladowaniu elementu
+                        reader.onload = function (e) {
+                            $scope.imgUploaded = true;
+                            document.getElementById("display-image").src = e.target.result;
+                            console.log(document.getElementById("display-image"));
+                            localStorageService.set("imgData", e.target.result);
+                            // console.log(e.target.result);
+                            // console.log(typeof e.target.result);                     
 
-                    //po zaladowaniu elementu
-                    reader.onload = function (e) {
-                        $scope.imgUploaded = true;
-                        document.getElementById("display-image").src = e.target.result;
-                        console.log(document.getElementById("display-image"));
-                        localStorageService.set("imgData", e.target.result);
-                        // console.log(e.target.result);
-                        // console.log(typeof e.target.result);                     
-
+                        }
                     }
+                }
+
+                if (localStorageService.get("imgData")) {
+
+                    console.log("ladowanie obrazka");
+                    $scope.imgUploaded = true; //flaga wgrania obrazka - od niej uzalezniona mozliwosc przejscia dalej
+
+                    //gdy w local storage załadowano już obrazek to wyswietl - obsluga sytuacji cofniecia sie w wizardzie
+
+                    const img = document.getElementById("display-image");
+                    // console.log(img);
+                    img.src = localStorageService.get("imgData");
+
+                } else {
+                    $scope.imgUploaded = false; //obrazek niezalazdowany -  brak mozliwosci przejscia dalej
                 }
             }
 
-            if (localStorageService.get("imgData")) {
+            if ($location.path() == "/wizard4") {
 
-                $scope.imgUploaded = true;
+                //pobranie src zapisanego w slajdzie drugim 
 
+                let imgData = localStorageService.get("imgData");
 
-            } else {
-                $scope.imgUploaded = false;
+                // console.log(imgData);
+                // console.log("Typ imgData " + typeof imgData);
+
+                //docelowy element DOM, w którym ma znaleźć się obraz
+                const img = document.getElementById("photo");
+                // console.log(img);
+                img.src = imgData;
+
+                // console.log(img.src);
+                // console.log(img);
             }
+
         }
 
-        if ($location.path() == "/wizard4") {
-
-            //pobranie src zapisanego w slajdzie drugim 
-
-            let imgData = localStorageService.get("imgData")
-
-            // console.log(imgData);
-            // console.log("Typ imgData " + typeof imgData);
-
-            //docelowy element DOM, w którym ma znaleźć się obraz
-            const img = document.getElementById("photo");
-            // console.log(img);
-            img.src = imgData;
-
-            // console.log(img.src);
-            // console.log(img);
-        }
-
+        reload(); //przy kazdym przeladowaniu
 
     }])

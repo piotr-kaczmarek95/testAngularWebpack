@@ -3,6 +3,11 @@
 
         margin: 20px;
     }
+
+    #display-image{
+
+        width: 20%;
+    }
 </style>
 
 <div layout="column" layout-align="center center">
@@ -17,8 +22,9 @@
         <input type="file" id="photo" accept="image/png, image/jpeg">
 
     </form>
-
-    <img id="display-image" src="">
+    <!-- linijka ponizej - nadpisze sobie atrybut src -->
+    <!-- <img id="display-image" src="#"> -->
+    <img id="display-image">
 
     <div layout="row">
         <md-button ng-click="prev()">Wstecz</md-button>
