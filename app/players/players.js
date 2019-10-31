@@ -372,11 +372,33 @@ angular.module('homeworkProject.players', ['ngRoute'])
                         $scope.age = $scope.playerData[i].age;
                         $scope.value = $scope.playerData[i].value;
 
-                        //wypelnienie kontenera obrazkiem - o ile dodaliśmy go przy tworzeniu wpisu
+                        //wypelnienie canvasa obrazkiem - o ile dodaliśmy go przy tworzeniu wpisu
                         if ($scope.playerData[i].img) {
 
-                            $scope.img = $scope.playerData[i].img;
-                            document.getElementById('container').src = $scope.img;
+                            $scope.disableRemovalButton = false; //odblokowanie przycisku umożliwiającego skasowanie obrazka
+
+                            // $scope.img = $scope.playerData[i].img;
+                            // document.getElementById('container').src = $scope.img;
+                            const canvas = document.getElementById('canvas');
+                            const ctx = canvas.getContext("2d");
+                            const destWidth = 200;
+
+                            const image = new Image();
+                            image.src = $scope.playerData[i].img;
+
+                            // console.log(image);
+                            // console.log(image.height);
+                            // console.log(image.width);
+
+                            image.onload = function () {
+
+                                canvas.width = destWidth;
+                                let ratio = destWidth / image.width;
+                                canvas.height = ratio * image.height;
+                                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                            }
+
                         }
 
                         break;
@@ -469,6 +491,25 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
             let canvas = document.getElementById("canvas"); //pobranie kontenera na obrazek
 
+            $scope.disableRemovalButton = true; //na poczatku prawda
+
+            //kasowanie wstawionego obrazka / wczytanego podczas edycji juz istniejacego gracza
+
+            document.getElementById("remove").addEventListener('click', function () {
+
+                if (canvas.width > 0 && canvas.height > 0) {
+
+                    canvas.width = 0;
+                    canvas.height = 0;
+                    $scope.img = ""; //nie dodam obrazka
+                    $scope.disableRemovalButton = true; 
+                }
+                
+                $scope.$digest(); //ręczne uaktualnienie stanu przycisku usuwajacego
+            })
+
+            //rysowanie wstawionego inputem obrazka        
+
             let ctx = canvas.getContext("2d"); //konieczne ustawienie kontekstu rysowania
             canvas.width = 0;
             canvas.height = 0;
@@ -522,6 +563,11 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
                             //     ctx.drawImage(image, 0, 0);
                             // }
+
+                            $scope.disableRemovalButton = false; //dodany obrazek - odblok możl. usuniecia
+                            $scope.$digest();
+                            // console.log($scope.disableRemovalButton);
+                        
 
                         }
                     }
