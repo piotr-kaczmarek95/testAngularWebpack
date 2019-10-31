@@ -250,7 +250,11 @@ angular.module('homeworkProject.players', ['ngRoute'])
             $scope.age = "";
             $scope.img = "";
 
-            document.getElementById('container').src = $scope.img;
+            // document.getElementById('container').src = $scope.img; //gdy kontenerem był img
+
+            document.getElementById('canvas').width = 0;
+            document.getElementById('canvas').height = 0;
+
 
 
             $scope.playerForm.playerSurname.$dirty = false;
@@ -463,30 +467,66 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
             console.log("Jestem w players!");
 
-            const inputElement = document.getElementById("photo"); //kontener w html na zdjęcie
-            // console.log(inputElement);
+            let canvas = document.getElementById("canvas"); //pobranie kontenera na obrazek
+
+            let ctx = canvas.getContext("2d"); //konieczne ustawienie kontekstu rysowania
+            canvas.width = 0;
+            canvas.height = 0;
+
+            const image = new Image(); //zmienna, ktorej podam src i wstawie do kontenera
+
+            const inputElement = document.getElementById("photo"); //input, ktorym wgrywam zdjecie
+
+            const destWidth = 200;
+
             if (inputElement) {
 
                 inputElement.addEventListener("change", handleFiles, false);
 
                 function handleFiles() {
 
-                    let image = inputElement.files[0];
-                    console.log(image);
+                    let inputData = inputElement.files[0];
+                    console.log(inputData);
 
                     let reader = new FileReader();
-                    reader.readAsDataURL(image);
+                    reader.readAsDataURL(inputData);
 
-                    //po zaladowaniu elementu
                     reader.onload = function (e) {
 
-                        $scope.imgUploaded = true;
-                        document.getElementById("container").src = e.target.result;
-                        console.log(document.getElementById("container"));
-                        $scope.img = e.target.result; //podstawiam pod zmienna, ktora bedzie pozniej wrzucona do obiektu przechowujacego dane zawodnika  (w funkcji itemToStorage)                               
+                        // canvas.style.display = "inline-block"; //ustawienie widocznosci canvasa
 
+                        $scope.img = e.target.result; //img to jedna z wlasnosci obiektu player - do wyswietlenia na liscie
+
+                        console.log(e.target.result);
+
+                        //zaladowany z input obraz przekazany do rysowania w canvasie
+
+                        image.src = e.target.result; //stworzony wczensiej obiekt image 
+
+                        // console.log(image.src);
+                        // console.log(image);
+
+                        image.onload = function () { //gdy obraz sie zaladuje
+
+                            //po przypisaniu src do obietku image typu Image moge sprawdzic pierwotne wymiary
+                            console.log(image.width);
+                            console.log(image.height);
+
+                            // if (image.width > 200) {
+
+                            canvas.width = destWidth; //zadana szerokosc miniaturki w px
+                            let ratio = destWidth / image.width;
+                            canvas.height = ratio * image.height;
+                            ctx.drawImage(image, 0, 0, canvas.width, canvas.height); //rysuje w canvasie przeskalowana miniaturke
+                            // } else {
+
+                            //     ctx.drawImage(image, 0, 0);
+                            // }
+
+                        }
                     }
                 }
+
             }
         }
 
