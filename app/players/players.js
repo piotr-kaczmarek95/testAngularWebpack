@@ -367,13 +367,13 @@ angular.module('homeworkProject.players', ['ngRoute'])
                         $scope.surname = $scope.playerData[i].surname;
                         $scope.age = $scope.playerData[i].age;
                         $scope.value = $scope.playerData[i].value;
-                        $scope.img = $scope.playerData[i].img;
-                        //wypelnienie kontenera obrazkiem
-                        if ($scope.img.length > 0) {
 
+                        //wypelnienie kontenera obrazkiem - o ile dodaliśmy go przy tworzeniu wpisu
+                        if ($scope.playerData[i].img) {
+
+                            $scope.img = $scope.playerData[i].img;
                             document.getElementById('container').src = $scope.img;
                         }
-
 
                         break;
                     }

@@ -94,7 +94,7 @@ angular.module('homeworkProject.wizard1', ['ngRoute'])
 
             if ($location.path() == "/wizard2") {
 
-                const inputElement = document.getElementById("photo"); //input, ktorym wgrywam zdjecier
+                const inputElement = document.getElementById("photo"); //input, ktorym wgrywam zdjecie
                 // console.log(inputElement);
                 if (inputElement) {
 
