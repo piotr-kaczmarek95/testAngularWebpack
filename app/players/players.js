@@ -114,7 +114,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
                             console.log("Blad!");
                         })
 
-                    
+
                     })
 
                     console.log("Pobrane!");
@@ -149,6 +149,8 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
                     console.log("Czyszczenie ok!");
                 })
+
+                playerData.length = 0; //kasowanie wyswietlanej tablicy
             },
 
             removeFromStorage: function (surname, playerData) {
