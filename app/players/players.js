@@ -14,13 +14,13 @@ angular.module('homeworkProject.players', ['ngRoute'])
         });
     }])
 
-    .factory('playerDataServices', ['localStorageService', function (localStorageService) {
+    .factory('playerDataServices', ['localStorageService', '$localForage', function (localStorageService, $localForage) {
 
         return {
 
             showAllEntries: function () {
 
-                console.log(localStorageService.keys());
+                /*console.log(localStorageService.keys());
 
                 let keys = localStorageService.keys();
                 keys.forEach(item => {
@@ -32,7 +32,24 @@ angular.module('homeworkProject.players', ['ngRoute'])
                         console.log("Klucz: " + item + ", wartość: imię " + localStorageService.get(item).name + ", wiek " + localStorageService.get(item).age + ", wartość " + localStorageService.get(item).value);
                     }
 
+                })*/
+
+                /////wersja localforage
+
+                localforage.keys().then(function (fkeys) {
+
+                    fkeys.forEach(key => {
+
+                        localforage.getItem(key).then(function (val) {
+
+                            if (val.name != undefined) {
+
+                                console.log(key, val.name, val.age, val.value);
+                            }
+                        })
+                    })
                 })
+
             },
 
             importDataFromStorage: function (playerData) {
@@ -42,7 +59,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
                 //aktualizacja danych na podstawie wpisów w localStorage
 
-                let keys = localStorageService.keys();
+                /*let keys = localStorageService.keys();
 
                 keys.forEach(item => {
 
@@ -62,12 +79,53 @@ angular.module('homeworkProject.players', ['ngRoute'])
                         })
 
                     }
+                })*/
+
+                //wersja localforage
+
+                localforage.keys().then(function (fkeys) {
+
+                    fkeys.forEach(item => {
+                        console.log(item);
+
+                        localforage.getItem(item).then(function (val) {
+
+                            // console.log(val);
+                            // console.log(val.name);
+                            // console.log(item);
+
+                            if (val.name) {
+
+                                playerData.push({
+
+                                    name: val.name,
+                                    surname: item,
+                                    age: val.age,
+                                    value: val.value,
+                                    img: val.img
+                                })
+
+                                console.log("Ok!");
+
+                            }
+
+                        }).catch(function (err) {
+
+                            console.log("Blad!");
+                        })
+
+                    
+                    })
+
+                    console.log("Pobrane!");
+                    console.log(playerData);
+
                 })
             },
 
             clearAll: function (playerData) {
 
-                let keys = localStorageService.keys()
+                /*let keys = localStorageService.keys()
 
                 console.log("Wypisanie porzed kasowaniem!");
 
@@ -83,19 +141,33 @@ angular.module('homeworkProject.players', ['ngRoute'])
                 }
 
                 playerData.length = 0;
-                console.log("Usunięto zawodników z local storage");
+                console.log("Usunięto zawodników z local storage");*/
+
+                //wersja localforage - w indexedDB zapisuje tylko dane zawodnikow, wiec moge usunac cala
+
+                localforage.clear().then(function () {
+
+                    console.log("Czyszczenie ok!");
+                })
             },
 
             removeFromStorage: function (surname, playerData) {
 
-                localStorageService.remove(surname);
-                console.log("Usunięto: " + surname);
+                /*localStorageService.remove(surname);
+                console.log("Usunięto: " + surname);*/
+
+                //wersja forage
+
+                localforage.removeItem(surname);
+
+                //////
 
                 for (let i = 0; i < playerData.length; i++) {
 
                     if (playerData[i].surname == surname) {
 
                         playerData.splice(i, 1);
+                        break; ////
                     }
                 }
             },
@@ -151,7 +223,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
     //tu trzeba też wrzucić localStorageService
 
-    .controller('playersController', ['$scope', '$location', 'localStorageService', 'checkAgeService', 'playerDataServices', '$mdDialog', '$interval', function ($scope, $location, localStorageService, checkAgeService, playerDataServices, $mdDialog, $interval) {
+    .controller('playersController', ['$scope', '$location', 'localStorageService', 'checkAgeService', 'playerDataServices', '$mdDialog', '$interval', '$localForage', function ($scope, $location, localStorageService, checkAgeService, playerDataServices, $mdDialog, $interval, $localForage) {
 
         //pamiętaj, że view1 i view2 maja inny kontroler, dlatego nic sie nie pojawia
 
@@ -173,7 +245,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
             $scope.surnames.length = 0;
 
-            let keys = localStorageService.keys();
+            /* let keys = localStorageService.keys();
 
             //wczytanie z bazy tylko tych kluczy, ktore maja atrybut name 
 
@@ -186,7 +258,18 @@ angular.module('homeworkProject.players', ['ngRoute'])
                 }
             }
 
-            console.log("Tablica nazwisk" + $scope.surnames);
+            console.log("Tablica nazwisk" + $scope.surnames);*/
+
+            //////localforage
+
+            localforage.keys().then(fkeys => {
+
+                fkeys.forEach(key => {
+
+                    $scope.surnames.push(key);
+                })
+
+            })
         }
 
         $scope.loadingBeforeSearch = function (searchedPlayer) {
@@ -233,11 +316,22 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
         $scope.itemToStorage = function (name, surname, age, value, img) {
 
-            localStorageService.set(surname, {
+            // localStorageService.set(surname, {
+            //     name: name,
+            //     age: age,
+            //     value: value,
+            //     img: img
+            // });
+
+            //wersja localforage
+
+            localforage.setItem(surname, {
+
                 name: name,
                 age: age,
                 value: value,
                 img: img
+
             });
 
             $scope.importFromStorage(); //aktualizacja wyswietlenia 
@@ -259,6 +353,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
             $scope.playerForm.playerSurname.$dirty = false;
             $scope.playerForm.playerName.$dirty = false;
+
         }
 
         $scope.removeFromStorage = function (surname) {
@@ -291,6 +386,10 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
         $scope.arrToDataset = function (arr) {
 
+            console.log("W arr to dataset");
+
+            console.log(arr);
+
             let str = "";
 
             for (let i = 0; i < arr.length; i++) {
@@ -304,46 +403,38 @@ angular.module('homeworkProject.players', ['ngRoute'])
                 str = str + "'" + arr[i] + "', ";
             }
 
+            console.log("wynikowa");
+            console.log(str);
+
+
             return "[" + str + "]";
+
         }
 
         $scope.printChart = function () {
 
-            let keys = localStorageService.keys();
+            let items = [];
+            let values = [];
 
-            // console.log(keys.length);
+            $scope.showPicture = true;
 
-            if (keys.length > 0) {
+            console.log($scope.playerData);
 
-                let items = [];
-                let values = [];
+            $scope.playerData.forEach(item => {
 
-                $scope.showPicture = true;
+                items.push(item.surname);
+                values.push(item.value);
+            })
 
-                keys.forEach(item => {
+            // console.log(items);
+            // console.log(values);
 
-                    //ponownie - zabezpieczenie, by nie wczytać elementu z localStorage, ktory nie jest zawodnikiem, a np. dana z wizarda
+            let itemsDataset = $scope.arrToDataset(items);
+            let valuesDataset = $scope.arrToDataset(values);
 
-                    if (localStorageService.get(item).value != undefined) {
-
-                        items.push(item);
-                        values.push(localStorageService.get(item).value);
-
-                    }
-
-                })
-
-                // console.log(items);
-                // console.log(values);
-
-                let itemsDataset = $scope.arrToDataset(items);
-                let valuesDataset = $scope.arrToDataset(values);
-
-                let uri = "{type: 'bar', data: { labels:" + itemsDataset + ", datasets: [{ label: 'Value', data:" + valuesDataset + "}]}} ";
-                let res = encodeURI(uri);
-                document.getElementById("demo").src = "https://quickchart.io/chart?c=" + res;
-
-            }
+            let uri = "{type: 'bar', data: { labels:" + itemsDataset + ", datasets: [{ label: 'Value', data:" + valuesDataset + "}]}} ";
+            let res = encodeURI(uri);
+            document.getElementById("demo").src = "https://quickchart.io/chart?c=" + res;
 
         }
 
@@ -396,9 +487,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
                                 let ratio = destWidth / image.width;
                                 canvas.height = ratio * image.height;
                                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
                             }
-
                         }
 
                         break;
@@ -502,9 +591,9 @@ angular.module('homeworkProject.players', ['ngRoute'])
                     canvas.width = 0;
                     canvas.height = 0;
                     $scope.img = ""; //nie dodam obrazka
-                    $scope.disableRemovalButton = true; 
+                    $scope.disableRemovalButton = true;
                 }
-                
+
                 $scope.$digest(); //ręczne uaktualnienie stanu przycisku usuwajacego
             })
 
@@ -567,7 +656,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
                             $scope.disableRemovalButton = false; //dodany obrazek - odblok możl. usuniecia
                             $scope.$digest();
                             // console.log($scope.disableRemovalButton);
-                        
+
 
                         }
                     }

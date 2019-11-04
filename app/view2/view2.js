@@ -13,11 +13,11 @@ angular.module('homeworkProject.view2', ['ngRoute'])
     });
   }])
 
-  .controller('View2Ctrl', ['$scope', '$http', function ($scope, $http) {
+  .controller('View2Ctrl', ['$scope', '$http', '$localForage', function ($scope, $http, $localForage) {
 
     $scope.menu = menu;
     $scope.info = info;
-    
+
 
     $scope.text = "Losowy fakt";
 
@@ -68,5 +68,42 @@ angular.module('homeworkProject.view2', ['ngRoute'])
     //   return function filterFn(state) {
     //     return (state.value.indexOf(lowercaseQuery) === 0);
     //   };
+
+    /*$scope.zmienna = "To jest zmienna";
+
+    $scope.funkcja = function () {
+
+      console.log($scope.myObj.myVar);
+      // console.log("Zmiana");
+    }
+
+    $scope.dodaj = function () {
+
+      localforage.setItem('key', $scope.zmienna);
+      console.log("Dodane!");
+    }
+
+    $scope.pobierz = function () {
+
+      //tu jest wymaganie rozwiazania obietnicy
+
+      // $scope.zmiennaPobrana = localforage.getItem('key');
+      // console.log($scope.zmiennaPobrana);
+
+      localforage.getItem('key').then(function(val){
+
+        $scope.zmiennaPobrana = val;
+        console.log($scope.zmiennaPobrana);
+        $scope.$digest();
+      })
+
+    }
+
+    $scope.usun = function () {
+
+      localforage.removeItem('key');
+      console.log("Usuniete");
+      $scope.zmiennaPobrana = "";
+    }*/
 
   }])

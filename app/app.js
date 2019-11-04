@@ -33,7 +33,8 @@ angular.module('homeworkProject', [
     'homeworkProject.wizard4',
     'LocalStorageModule',
     'ngMaterial',
-    'ngMessages'
+    'ngMessages',
+    'LocalForageModule'
 
   ])
   .config(['$locationProvider', '$routeProvider', '$mdThemingProvider', function ($locationProvider, $routeProvider, $mdThemingProvider) {
@@ -56,4 +57,17 @@ angular.module('homeworkProject', [
 
     localStorageServiceProvider.setPrefix('homework');
 
-  }]);
+  }])
+
+  .config(['$localForageProvider', function ($localForageProvider) {
+
+    $localForageProvider.config({
+
+      driver: localforage.INDEXEDDB, // if you want to force a driver
+      name: 'lf', // name of the database and prefix for your data, it is "lf" by default
+      version: 1.0, // version of the database, you shouldn't have to use this
+      storeName: 'players', // name of the table
+      description: 'players database'
+    });
+
+  }])
