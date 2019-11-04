@@ -10,6 +10,8 @@ require('./node_modules/angular-animate/angular-animate.min.js');
 require('./node_modules/angular-aria/angular-aria.min.js');
 require('./node_modules/angular-material/angular-material.min.js');
 require('./node_modules/angular-messages/angular-messages.min.js');
+require('./node_modules/localforage/dist/localforage.js');
+require('./node_modules/angular-localforage/dist/angular-localForage.js');
 
 require('./app/app.js');
 require('./app/view1/view1.js');

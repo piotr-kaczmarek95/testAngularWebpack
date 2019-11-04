@@ -1,6 +1,7 @@
 'use strict';
 
 import angular from 'angular'
+import localforage from 'localforage'
 
 // console.log(navigator);
 

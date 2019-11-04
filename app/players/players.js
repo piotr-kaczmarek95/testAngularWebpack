@@ -1,5 +1,6 @@
 import playerstemp from './players.html'
 import account from '../svgs/account.svg'
+import localforage from 'localforage'
 
 
 angular.module('homeworkProject.players', ['ngRoute'])
@@ -241,6 +242,8 @@ angular.module('homeworkProject.players', ['ngRoute'])
 
         $scope.surnames = [];
 
+        $scope.matching = []; //tablica podpowiedzi dla md-autocomplete musi byc okreslona
+
         $scope.getSurnamesToArray = function () {
 
             //wyluskanie z bazy jedynie nazwisk, ktore beda podpowiedziami w elemencie md-autocomplete
@@ -345,6 +348,7 @@ angular.module('homeworkProject.players', ['ngRoute'])
             $scope.value = "";
             $scope.age = "";
             $scope.img = "";
+            $scope.myDate = null; //unikniecie podkreslenia na czerwono wyzerowanego daterpickera po wyslaniu formularza 
 
             // document.getElementById('container').src = $scope.img; //gdy kontenerem był img
 
